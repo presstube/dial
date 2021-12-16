@@ -18,7 +18,8 @@ let dialUnits
 let currentRot = 0
 let lastRot = 0
 let faceRadius = 300
-let numUnits = Math.floor(Math.random()*200) + 100
+let numUnits = 300
+// let numUnits = Math.floor(Math.random()*200) + 100
 
 AALib.setAttribute("src", "AA/lib.js")
 document.body.appendChild(AALib)
@@ -68,8 +69,6 @@ function kickoff() {
   dialHand = new lib.DialHand()
   container.addChild(dialHand)
 
-  // let dialUnit = lib.DialUnit()
-
   makeDialUnits(numUnits)
 
 }
@@ -80,7 +79,7 @@ function tick(e) {
 
 function getAngle(p1, p2) {
   let angle = Math.atan2(p1.y - p2.y, p1.x - p2.x) * 180 / Math.PI
-  console.log("angle: ", angle)
+  // console.log("angle: ", angle)
   return angle
 }
 
