@@ -18,29 +18,83 @@ let dialUnits
 let currentRot = 0
 let lastRot = 0
 let faceRadius = 300
-let numUnits = 300
-// let numUnits = Math.floor(Math.random()*200) + 100
+let numUnits = 50
+let increment = 360 / numUnits
+let granAnglePrev = 0
+let granAngleCurrent = 0
+let granAngleDelta = 0
+let line
+let units = _.times(numUnits, index => {
+  return index * increment
+})
+// let click = new Pizzicato.Sound({ 
+//     source: 'file',
+//     options: { 
+//       path: './sounds/click3.wav',
+//       loop: false }
+// }, function() {
+//   console.log('sound file loaded: ', );
+// })
 
-AALib.setAttribute("src", "AA/lib.js")
-document.body.appendChild(AALib)
-AALib.addEventListener("load", () => {
-  let comp=AdobeAn.getComposition("1B1D331872B84B678B30A74AB80E74A9")
-  lib=comp.getLibrary()
-  kickoff()
-}, false)
+loadLib()
+function loadLib() {
+  AALib.setAttribute("src", "AA/lib.js")
+  document.body.appendChild(AALib)
+  AALib.addEventListener("load", () => {
+    let comp=AdobeAn.getComposition("1B1D331872B84B678B30A74AB80E74A9")
+    lib=comp.getLibrary()
+    kickoff()
+  }, false)
+}
 
 function kickoff() {
   cjs.Ticker.framerate = 30
   createjs.Ticker.addEventListener("tick", tick)
-
-
-// let swiper = new Hammer(element, {'recognizers' : [[Hammer.Pan, {direction : Hammer.DIRECTION_NONE}]]});
 
   window.addEventListener("keydown", e => {
     console.log("KEY: ", e)
     if (e.key == "g") {
     }
   })
+
+  line = new cjs.Shape()
+  stage.addChild(line)
+
+  // window.addEventListener("touchstart", e => {
+  //   // console.log("ts: ", e)
+  //   // console.log("ts: ", e)
+  //   let p = new cjs.Point(e.touches[0].clientX, e.touches[0].clientY)
+  //   let angle = getAngle(container, p)
+  //   granAnglePrev = getGranularAngle(angle, numUnits)
+  //   granAngleCurrent = granAnglePrev
+  //   line.graphics.clear()
+  //   line.graphics.setStrokeStyle(1).beginStroke("rgba(255,0,0,1)")
+  //   line.graphics.moveTo(container.x, container.y)
+  //   line.graphics.lineTo(p.x, p.y)
+  //   line.graphics.endStroke()
+  // })
+
+  // window.addEventListener("touchmove", e => {
+  //   // console.log("tm: ", e.touches[0])
+  //   // console.log("co: ", container.y)
+  //   let p = new cjs.Point(e.touches[0].clientX, e.touches[0].clientY)
+  //   let angle = getAngle(container, p)
+  //   granAngleCurrent = getGranularAngle(angle, numUnits)
+  //   granAngleDelta = granAngleCurrent - granAnglePrev
+  //   if (granAngleDelta !== 0) {
+  //     click.play(0,0)
+  //     // audio.play()
+  //     dialHand.rotation += granAngleDelta
+  //   }
+  //   granAnglePrev = granAngleCurrent
+  //   line.graphics.clear()
+  //   line.graphics.setStrokeStyle(1).beginStroke("rgba(255,0,0,1)")
+  //   line.graphics.moveTo(container.x, container.y)
+  //   line.graphics.lineTo(p.x, p.y)
+  //   line.graphics.endStroke()
+  // })
+
+
   let hammer = new Hammer(document, {
     'recognizers' : 
       [[Hammer.Pan, {
@@ -50,17 +104,41 @@ function kickoff() {
   })
 
   hammer.on('panstart', e => {
-    currentRot = getAngle(container, e.center)
-    updateRot(e)
+    let p = new cjs.Point(e.changedPointers[0].clientX, e.changedPointers[0].clientY)
+    let angle = getAngle(container, p)
+    // let angle = getAngle(container, e.center)
+    granAnglePrev = getGranularAngle(angle, numUnits)
+    granAngleCurrent = granAnglePrev
+    line.graphics.clear()
+    line.graphics.setStrokeStyle(1).beginStroke("rgba(255,0,0,1)")
+    line.graphics.moveTo(container.x, container.y)
+    line.graphics.lineTo(p.x, p.y)
+    line.graphics.endStroke()
+
   })
+
   hammer.on('panmove', e => {
-    updateRot(e)
+    console.log("asdasd: ", e)
+    let p = new cjs.Point(e.changedPointers[0].clientX, e.changedPointers[0].clientY)
+    let angle = getAngle(container, p)
+    // let angle = getAngle(container, e.center)
+    granAngleCurrent = getGranularAngle(angle, numUnits)
+    granAngleDelta = granAngleCurrent - granAnglePrev
+    if (granAngleDelta !== 0) {
+      // click.play(0,0)
+      dialHand.rotation += granAngleDelta
+    }
+    granAnglePrev = granAngleCurrent
+    line.graphics.clear()
+    line.graphics.setStrokeStyle(1).beginStroke("rgba(255,0,0,1)")
+    line.graphics.moveTo(container.x, container.y)
+    line.graphics.lineTo(p.x, p.y)
+    line.graphics.endStroke()
   })
+
   hammer.on('panend', e => {
-    updateRot(e)
-    // console.log("panend: ", dialHand.rotation % 360)
-    // dialHand.rotation = dialHand.rotation
-    snapToClosestDialUnit()
+    // updateRot(e)
+    // snapToClosestDialUnit()
   })
   
   crosshairs = new lib.Crosshairs()
@@ -78,9 +156,22 @@ function tick(e) {
 }
 
 function getAngle(p1, p2) {
-  let angle = Math.atan2(p1.y - p2.y, p1.x - p2.x) * 180 / Math.PI
-  // console.log("angle: ", angle)
+  let angle = (Math.atan2(p1.y - p2.y, p1.x - p2.x) * 180 / Math.PI) - 90
+  angle = angle < 0 ? 360 + angle : angle
   return angle
+}
+
+function getAngleRaw(x1, y1, x2, y2) {
+  let angle = (Math.atan2(y1 - y2, x1 - x2) * 180 / Math.PI) - 90
+  angle = angle < 0 ? 360 + angle : angle
+  return angle
+}
+
+function getGranularAngle(angle, numUnits) {
+  let closest = units.reduce((prev, curr) => {
+    return (Math.abs(curr - angle) < Math.abs(prev - angle) ? curr : prev);
+  })
+  return closest
 }
 
 function updateRot(e) {
