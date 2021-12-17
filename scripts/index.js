@@ -17,15 +17,27 @@ let dialFace
 let dialUnits
 let currentRot = 0
 let lastRot = 0
-let faceRadius = 300
-let numUnits = 50
+let faceRadius = 500
+let dialInnerRadius = 10
+let dialOuterRadius = 490
+let numUnits = 300
 let increment = 360 / numUnits
 let granAnglePrev = 0
 let granAngleCurrent = 0
 let granAngleDelta = 0
+let dialRotation = 0
 let line
 let units = _.times(numUnits, index => {
   return index * increment
+})
+
+let click = new Pizzicato.Sound({ 
+    source: 'file',
+    options: { 
+      path: './sounds/click3.wav',
+      loop: false }
+}, function() {
+  console.log('sound file loaded: ', );
 })
 
 loadLib()
@@ -52,10 +64,25 @@ function kickoff() {
   line = new cjs.Shape()
   stage.addChild(line)
 
+  crosshairs = new lib.Crosshairs()
+  container.addChild(crosshairs)
+
+  // dialHand = new lib.DialHand()
+  dialHand = new cjs.Shape()  
+  dialHand.graphics.setStrokeStyle(1).beginStroke("rgba(255,255,255,1)")
+  dialHand.graphics.moveTo(0, -dialInnerRadius)
+  dialHand.graphics.lineTo(0, -dialOuterRadius)
+  dialHand.graphics.endStroke()
+  container.addChild(dialHand)
+
+  makeDialUnits(numUnits)
+
+
   document.addEventListener("touchstart", e => { handleDialStart(e.touches[0])})
   document.addEventListener("mousedown", handleDialStart)
 
   function handleDialStart(e) {
+    click.play(0,0)
     let p = e.touches ? 
       new cjs.Point(e.touches[0].clientX, e.touches[0].clientY) : 
       new cjs.Point(e.clientX, e.clientY)
@@ -63,7 +90,7 @@ function kickoff() {
     let angle = getAngle(container, p)
     granAnglePrev = getGranularAngle(angle, numUnits)
     granAngleCurrent = granAnglePrev
-    visDialInteraction(p)
+    // visDialInteraction(p)
     document.addEventListener("touchmove", handleDialMove)
     document.addEventListener("touchend", handleDialEnd)
     document.addEventListener("mousemove", handleDialMove)
@@ -78,10 +105,13 @@ function kickoff() {
     granAngleCurrent = getGranularAngle(angle, numUnits)
     granAngleDelta = granAngleCurrent - granAnglePrev
     if (granAngleDelta !== 0) {
-      dialHand.rotation += granAngleDelta
+      click.play(0,0)
+      dialRotation += granAngleDelta
+      loadIteration(Math.ceil((dialRotation % 360)/increment))
+      cjs.Tween.get(dialHand, {override:true}).to({rotation: dialRotation}, 100, cjs.Ease.quintOut)
     }
     granAnglePrev = granAngleCurrent
-    visDialInteraction(p)
+    // visDialInteraction(p)
   }
 
   function handleDialEnd(e) {
@@ -99,18 +129,16 @@ function kickoff() {
     line.graphics.endStroke()
   }
   
-  crosshairs = new lib.Crosshairs()
-  container.addChild(crosshairs)
-
-  dialHand = new lib.DialHand()
-  container.addChild(dialHand)
-
-  makeDialUnits(numUnits)
-
 }
 
 function tick(e) {
   stage.update()
+}
+
+function loadIteration(iteration) {
+  iteration = iteration < 1 ? 300 + iteration : iteration
+  console.log('iter: ', iteration)
+
 }
 
 function getAngle(p1, p2) {

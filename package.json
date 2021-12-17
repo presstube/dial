@@ -1,0 +1,22 @@
+{
+  "name": "dial",
+  "version": "1.0.0",
+  "description": "a dial interface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/presstube/dial.git"
+  },
+  "author": "@presstube",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/presstube/dial/issues"
+  },
+  "homepage": "https://github.com/presstube/dial#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
