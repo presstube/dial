@@ -10,6 +10,7 @@ function fxSample(arr) {
 
 let AALib = document.createElement("script")
 let lib
+let objkts
 let hammer
 let crosshairs
 let dialHand
@@ -31,14 +32,14 @@ let units = _.times(numUnits, index => {
   return index * increment
 })
 
-let click = new Pizzicato.Sound({ 
-    source: 'file',
-    options: { 
-      path: './sounds/click3.wav',
-      loop: false }
-}, function() {
-  console.log('sound file loaded: ', );
-})
+// let click = new Pizzicato.Sound({ 
+//     source: 'file',
+//     options: { 
+//       path: './sounds/click3.wav',
+//       loop: false }
+// }, function() {
+//   console.log('sound file loaded: ', );
+// })
 
 loadLib()
 function loadLib() {
@@ -47,8 +48,18 @@ function loadLib() {
   AALib.addEventListener("load", () => {
     let comp=AdobeAn.getComposition("1B1D331872B84B678B30A74AB80E74A9")
     lib=comp.getLibrary()
-    kickoff()
+    loadData()
   }, false)
+}
+
+function loadData() {
+  fetch("scripts/dillsack-data.json")
+    .then(response => response.json())
+    .then(json => {
+      objkts = json.data.generativeToken.entireCollection
+      console.log("KAKAK", json.data.generativeToken.entireCollection)
+      kickoff()
+    })
 }
 
 function kickoff() {
@@ -82,7 +93,7 @@ function kickoff() {
   document.addEventListener("mousedown", handleDialStart)
 
   function handleDialStart(e) {
-    click.play(0,0)
+    // click.play(0,0)
     let p = e.touches ? 
       new cjs.Point(e.touches[0].clientX, e.touches[0].clientY) : 
       new cjs.Point(e.clientX, e.clientY)
@@ -105,10 +116,11 @@ function kickoff() {
     granAngleCurrent = getGranularAngle(angle, numUnits)
     granAngleDelta = granAngleCurrent - granAnglePrev
     if (granAngleDelta !== 0) {
-      click.play(0,0)
+      // click.play(0,0)
       dialRotation += granAngleDelta
       loadIteration(Math.ceil((dialRotation % 360)/increment))
-      cjs.Tween.get(dialHand, {override:true}).to({rotation: dialRotation}, 100, cjs.Ease.quintOut)
+      dialHand.rotation = dialRotation
+      // cjs.Tween.get(dialHand, {override:true}).to({rotation: dialRotation}, 100, cjs.Ease.quintOut)
     }
     granAnglePrev = granAngleCurrent
     // visDialInteraction(p)
@@ -138,7 +150,16 @@ function tick(e) {
 function loadIteration(iteration) {
   iteration = iteration < 1 ? 300 + iteration : iteration
   console.log('iter: ', iteration)
-
+  let fxhash = _.result(_.find(objkts, function(objkt) {
+    return objkt.iteration == iteration;
+  }), 'generationHash');
+  console.log('fxhash', fxhash)
+  let displayNum = iteration.toString()
+  displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
+  displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
+  console.log("displayNum: ", displayNum.length)
+  document.getElementById('overlay').innerHTML = '<p class="num">' + displayNum + '/' + numUnits + '</p><p>' + fxhash + '</p>'
+  // document.getElementById('overlayhash').innerHTML = '<p>' + fxhash + '</p>'
 }
 
 function getAngle(p1, p2) {
