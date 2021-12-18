@@ -21,7 +21,7 @@ let lastRot = 0
 let faceRadius = 500
 let dialInnerRadius = 10
 let dialOuterRadius = 490
-let numUnits = 300
+let numUnits = 100
 let increment = 360 / numUnits
 let granAnglePrev = 0
 let granAngleCurrent = 0
@@ -148,7 +148,7 @@ function tick(e) {
 }
 
 function loadIteration(iteration) {
-  iteration = iteration < 1 ? 300 + iteration : iteration
+  iteration = iteration < 1 ? numUnits + iteration : iteration
   console.log('iter: ', iteration)
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
@@ -158,7 +158,7 @@ function loadIteration(iteration) {
   displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
   displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
   console.log("displayNum: ", displayNum.length)
-  document.getElementById('overlay').innerHTML = '<p class="num">' + displayNum + '/' + numUnits + '</p><p>' + fxhash + '</p>'
+  document.getElementById('overlay').innerHTML = '<p class="num">' + displayNum + '/' + numUnits + '</p><p class="">' + fxhash + '</p>'
   // document.getElementById('overlayhash').innerHTML = '<p>' + fxhash + '</p>'
 }
 
