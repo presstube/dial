@@ -8,8 +8,11 @@ function fxSample(arr) {
 ///////////////////////////
 ///////////////////////////
 
+let AALoaderLib = document.createElement("script")
 let AALib = document.createElement("script")
+let loaderLib
 let lib
+let loader
 let objkts
 let hammer
 let crosshairs
@@ -21,7 +24,7 @@ let lastRot = 0
 let faceRadius = 500
 let dialInnerRadius = 10
 let dialOuterRadius = 490
-let numUnits = 100
+let numUnits = 300
 let increment = 360 / numUnits
 let granAnglePrev = 0
 let granAngleCurrent = 0
@@ -41,7 +44,22 @@ let units = _.times(numUnits, index => {
 //   console.log('sound file loaded: ', );
 // })
 
-loadLib()
+loadLoaderLib()
+
+function loadLoaderLib() {
+  AALoaderLib.setAttribute("src", "AA/loader.js")
+  document.body.appendChild(AALoaderLib)
+  AALoaderLib.addEventListener("load", () => {
+    let comp = AdobeAn.getComposition("6E551C23227A4C0691433EE6D5852D40")
+    loaderLib = comp.getLibrary()
+
+    console.log("loaded loader lib")
+
+    kickoffLoader()
+
+  }, false)
+}
+
 function loadLib() {
   AALib.setAttribute("src", "AA/lib.js")
   document.body.appendChild(AALib)
@@ -58,13 +76,30 @@ function loadData() {
     .then(json => {
       objkts = json.data.generativeToken.entireCollection
       console.log("KAKAK", json.data.generativeToken.entireCollection)
-      kickoff()
+      _.delay(kickoffMain, 1000)
+      // kickoff()
     })
 }
 
-function kickoff() {
+function kickoffLoader() {
   cjs.Ticker.framerate = 30
   createjs.Ticker.addEventListener("tick", tick)
+
+  loader = new loaderLib.PTLogoSigilsSmall()
+  container.addChild(loader)
+
+  loadLib()
+}
+
+function kickoffMain() {
+
+
+  console.log("asdasd: ", loader.width, loader.height)
+  let margin = 60
+  loader.x = (stage.width / 2) - margin
+  loader.y = -(stage.height / 2) + margin
+  loader.scaleX = loader.scaleY = 0.5
+  loader.gotoAndStop(0)
 
   window.addEventListener("keydown", e => {
     console.log("KEY: ", e)
@@ -75,18 +110,19 @@ function kickoff() {
   line = new cjs.Shape()
   stage.addChild(line)
 
-  crosshairs = new lib.Crosshairs()
-  container.addChild(crosshairs)
 
+  makeDialUnits(numUnits)
   // dialHand = new lib.DialHand()
   dialHand = new cjs.Shape()  
   dialHand.graphics.setStrokeStyle(1).beginStroke("rgba(255,255,255,1)")
   dialHand.graphics.moveTo(0, -dialInnerRadius)
   dialHand.graphics.lineTo(0, -dialOuterRadius)
   dialHand.graphics.endStroke()
-  container.addChild(dialHand)
+  dialFace.addChild(dialHand)
+  dialFace.alpha = 0
 
-  makeDialUnits(numUnits)
+  crosshairs = new lib.Crosshairs()
+  dialFace.addChild(crosshairs)
 
 
   document.addEventListener("touchstart", e => { handleDialStart(e.touches[0])})
@@ -94,6 +130,8 @@ function kickoff() {
 
   function handleDialStart(e) {
     // click.play(0,0)
+    cjs.Tween.get(dialFace, {override:true}).to({alpha: 1}, 300, cjs.Ease.quadIn)
+    
     let p = e.touches ? 
       new cjs.Point(e.touches[0].clientX, e.touches[0].clientY) : 
       new cjs.Point(e.clientX, e.clientY)
@@ -120,13 +158,17 @@ function kickoff() {
       dialRotation += granAngleDelta
       loadIteration(Math.ceil((dialRotation % 360)/increment))
       dialHand.rotation = dialRotation
-      // cjs.Tween.get(dialHand, {override:true}).to({rotation: dialRotation}, 100, cjs.Ease.quintOut)
+      let toStep = granAngleDelta < 0 ? -1 : 1
+      stepLoader(toStep)
+      // loader.gotoAndStop(_.random(loader.totalFrames))
+      // cjs.Tween.get(dialHand, {override:true}).to({rotation: dialRotation}, 100, cjs.Ease.quadOut)
     }
     granAnglePrev = granAngleCurrent
     // visDialInteraction(p)
   }
 
   function handleDialEnd(e) {
+    cjs.Tween.get(dialFace, {override:true}).to({alpha: 0}, 300, cjs.Ease.quadOut)
     document.removeEventListener("touchmove", handleDialMove)
     document.removeEventListener("touchend", handleDialEnd)
     document.removeEventListener("mousemove", handleDialMove)
@@ -140,7 +182,8 @@ function kickoff() {
     line.graphics.lineTo(p.x, p.y)
     line.graphics.endStroke()
   }
-  
+
+ 
 }
 
 function tick(e) {
@@ -192,6 +235,14 @@ function makeDialUnits(numUnits) {
     return dialUnit
     // console.log('point: ', point)
   }
+}
+
+function stepLoader(steps) {
+  console.log('tostep: ', steps)
+  let nextFrame = loader.currentFrame + steps
+  nextFrame = nextFrame < 0 ? loader.totalFrames - 1 : nextFrame
+  nextFrame = nextFrame > loader.totalFrames ? 0 : nextFrame
+  loader.gotoAndStop(nextFrame)
 }
 
 
