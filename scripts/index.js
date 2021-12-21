@@ -13,6 +13,7 @@ let AALib = document.createElement("script")
 let loaderLib
 let lib
 let loader
+let lemonPrincessType
 let objkts
 let hammer
 let crosshairs
@@ -31,6 +32,7 @@ let granAngleCurrent = 0
 let granAngleDelta = 0
 let dialRotation = 0
 let line
+let bgRect
 let units = _.times(numUnits, index => {
   return index * increment
 })
@@ -43,6 +45,18 @@ let units = _.times(numUnits, index => {
 // }, function() {
 //   console.log('sound file loaded: ', );
 // })
+
+let colorschemes = [
+  ["331832","d81e5b","f0544f","c6d8d3","fdf0d5"],
+  ["1b2f33","28502e","47682c","8c7051","ef3054"],
+  ["ea526f","070600","f7f7ff","23b5d3","279af1"],
+  ["07020d","5db7de","f1e9db","a39b8b","716a5c"],
+  ["5c415d","694966","74526c","dbd053","c89933"],
+  ["c4bbaf","a5978b","5c4742","8d5b4c","5a2a27"],
+  ["fbc2b5","ffa8a9","f786aa","a14a76","cdb2ab"],
+  ["d8e2dc","ffffff","ffcad4","f4acb7","9d8189"],
+]
+
 
 loadLoaderLib()
 
@@ -85,21 +99,40 @@ function kickoffLoader() {
   cjs.Ticker.framerate = 30
   createjs.Ticker.addEventListener("tick", tick)
 
+  bgRect = new cjs.Shape()
+  console.log("bgRect:", bgRect)
+  bgRect.graphics.beginFill('#FF0000').drawRect(0, 0, 200, 200)
+  container.addChild(bgRect)
+
   loader = new loaderLib.PTLogoSigilsSmall()
   container.addChild(loader)
 
   loadLib()
 }
 
+
+function posPT() {
+  // console.log("asdasd: ", loader.width, loader.height)
+  let margin = 60
+  loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
+  loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
+  loader.scaleX = loader.scaleY = 0.5 / scaler
+  loader.gotoAndStop(0)
+}
+
+function posLemonPrincessType() {
+  // console.log("asdasd: ", loader.width, loader.height)
+  // let margin = 80
+  lemonPrincessType.x = (-(stage.width / 2) / scaler) + (120/scaler)
+  lemonPrincessType.y = (-(stage.height / 2) / scaler) + (50/scaler)
+  lemonPrincessType.scaleX = lemonPrincessType.scaleY = 0.5 / scaler
+  // lemonPrincessType.gotoAndStop(0)
+}
+
+
 function kickoffMain() {
 
-
-  console.log("asdasd: ", loader.width, loader.height)
-  let margin = 60
-  loader.x = (stage.width / 2) - margin
-  loader.y = -(stage.height / 2) + margin
-  loader.scaleX = loader.scaleY = 0.5
-  loader.gotoAndStop(0)
+  posPT()
 
   window.addEventListener("keydown", e => {
     console.log("KEY: ", e)
@@ -119,18 +152,24 @@ function kickoffMain() {
   dialHand.graphics.lineTo(0, -dialOuterRadius)
   dialHand.graphics.endStroke()
   dialFace.addChild(dialHand)
-  dialFace.alpha = 0
+  // dialFace.alpha = 0
 
   crosshairs = new lib.Crosshairs()
   dialFace.addChild(crosshairs)
+
+  lemonPrincessType = new lib.LemonPrincessType()
+  container.addChild(lemonPrincessType)
+  posLemonPrincessType()
 
 
   document.addEventListener("touchstart", e => { handleDialStart(e.touches[0])})
   document.addEventListener("mousedown", handleDialStart)
 
+  loadIteration(1)
+
   function handleDialStart(e) {
     // click.play(0,0)
-    cjs.Tween.get(dialFace, {override:true}).to({alpha: 1}, 300, cjs.Ease.quadIn)
+    cjs.Tween.get(dialFace, {override:true}).to({alpha: 1}, 100, cjs.Ease.quadIn)
     
     let p = e.touches ? 
       new cjs.Point(e.touches[0].clientX, e.touches[0].clientY) : 
@@ -168,7 +207,7 @@ function kickoffMain() {
   }
 
   function handleDialEnd(e) {
-    cjs.Tween.get(dialFace, {override:true}).to({alpha: 0}, 300, cjs.Ease.quadOut)
+    cjs.Tween.get(dialFace, {override:true}).to({alpha: 0}, 100, cjs.Ease.quadOut)
     document.removeEventListener("touchmove", handleDialMove)
     document.removeEventListener("touchend", handleDialEnd)
     document.removeEventListener("mousemove", handleDialMove)
@@ -183,7 +222,6 @@ function kickoffMain() {
     line.graphics.endStroke()
   }
 
- 
 }
 
 function tick(e) {
@@ -201,7 +239,7 @@ function loadIteration(iteration) {
   displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
   displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
   console.log("displayNum: ", displayNum.length)
-  document.getElementById('overlay').innerHTML = '<p class="num">' + displayNum + '/' + numUnits + '</p><p class="">' + fxhash + '</p>'
+  document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
   // document.getElementById('overlayhash').innerHTML = '<p>' + fxhash + '</p>'
 }
 
@@ -247,7 +285,13 @@ function stepLoader(steps) {
 
 
 
-
+let oldResize = window.onresize
+window.onresize = e => {
+  console.log("new resize")
+  oldResize(e)
+  posPT()
+  posLemonPrincessType()
+}
 
 
 

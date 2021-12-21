@@ -18,7 +18,7 @@
                                                   <Point y="40"/>
                                              </transformationPoint>
                                         </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="PTLogoSigilsSmall">
+                                        <DOMSymbolInstance libraryItemName="PTLogoSigilsSmall" selected="true">
                                              <matrix>
                                                   <Matrix tx="804.2" ty="724.2"/>
                                              </matrix>
