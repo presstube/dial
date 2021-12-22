@@ -46,7 +46,7 @@ if (reversed == null) { reversed = false; }
 	this.shape_1.setTransform(0.025,-34.975);
 
 	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f().s("#FFFFFF").ss(2,1,1).p("AAAiZIAAAzACaAAIgzAAAgpAAQAHAJAKAKQACACACADQAMANAIASQAJgSAMgNQACgDACgCQAKgKAHgJQAKgMgCgPQAAgGgCgEQgDgHgHgEQgGgDgHACQgGAAgGAEQgGADgEAFQgCABgBACQAAgCgBgBQgFgFgGgDQgGgEgGAAQgHgCgFADQgHAEgDAHQgDAEAAAGQgBAPAJAMgAAACaIAAgzAiZAAIAzAA");
+	this.shape_2.graphics.f().s("#FFFFFF").ss(2,1,1).p("AAAiyIAAAzACzAAIgzAAAg+AAQALANAPAQQADADACAFQATASANAcQANgcASgSQADgFADgDQAPgQALgNQAOgSgCgWQgBgKgDgGQgFgLgKgFQgIgEgLACQgJABgJAGQgJAEgHAHQgCABgBADQgBgDgCgBQgHgHgJgEQgJgGgJgBQgKgCgJAEQgKAFgFALQgDAGAAAKQgDAWAOASgAAACzIAAgzAiyAAIAzAA");
 	this.shape_2.setTransform(0.025,-39.575);
 
 	this.shape_3 = new cjs.Shape();

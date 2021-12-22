@@ -154,11 +154,11 @@ function kickoffMain() {
 
   makeDialUnits(objkts)
   // dialHand = new lib.DialHand()
-  dialHand = new cjs.Shape()  
+  dialHand = new cjs.Shape()
   dialHand.graphics.setStrokeStyle(1).beginStroke("rgba(255,255,255,1)")
   dialHand.graphics.moveTo(0, -dialInnerRadius)
   dialHand.graphics.lineTo(0, -dialOuterRadius)
-  dialHand.graphics.endStroke()
+  // dialHand.graphics.endStroke()
   dialFace.addChild(dialHand)
   // dialFace.alpha = 0
 
@@ -211,10 +211,13 @@ function kickoffMain() {
       // click.play(0,0)
       // dialRotation += granAngleDelta
       dialRotation = granAngleCurrent - granAngleOffset
-      loadIteration(Math.round((dialRotation % 360)/increment))
+      let iteration = Math.round((dialRotation % 360)/increment) + 1
+      loadIteration(iteration)
       dialHand.rotation = dialRotation
-      let toStep = granAngleDelta < 0 ? -1 : 1
-      stepLoader(toStep)
+      loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
+
+      // let toStep = granAngleDelta < 0 ? -1 : 1
+      // stepLoader(toStep)
       // loader.gotoAndStop(_.random(loader.totalFrames))
       // cjs.Tween.get(dialHand, {override:true}).to({rotation: dialRotation}, 100, cjs.Ease.quadOut)
     }
@@ -290,7 +293,7 @@ function makeDialUnits(objkts) {
 
   function makeDialUnit(index) {
     let objktData = objkts[index]
-    let degrees = (360 / numUnits) * (index + 1)
+    let degrees = (360 / numUnits) * (index)
     let point = PTUtils.polarDegrees(faceRadius, degrees)
 
     bootFXHash(objktData.generationHash)
@@ -364,7 +367,7 @@ function lightOrDark(color) {
 
     // Using the HSP value, determine whether the color is light or dark
     if (hsp > 127.5) {
-    // if (hsp > 50) {
+    // if (hsp > 140) {
 
         return 'light';
     } 
@@ -380,10 +383,14 @@ function setDarkMode(isDark) {
     document.getElementById("overlay").style.color = "#EEEEEE"
     simpleRecolor(lemonPrincessType, "#EEEEEE")
     simpleRecolor(loader, "#EEEEEE")
+    simpleRecolor(crosshairs, "#EEEEEE")
+    dialHand.graphics._stroke.style = "#EEEEEE"
   } else {
     document.getElementById("overlay").style.color = "#000033"
     simpleRecolor(lemonPrincessType, "#000033")
     simpleRecolor(loader, "#000033")
+    simpleRecolor(crosshairs, "#000033")
+    dialHand.graphics._stroke.style = "#000033"
   }
 }
 
