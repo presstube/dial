@@ -22,14 +22,15 @@ let dialFace
 let dialUnits
 let currentRot = 0
 let lastRot = 0
-let faceRadius = 500
+let faceRadius = 300
 let dialInnerRadius = 10
-let dialOuterRadius = 490
+let dialOuterRadius = 300
 let numUnits = 300
 let increment = 360 / numUnits
 let granAnglePrev = 0
 let granAngleCurrent = 0
 let granAngleDelta = 0
+let granAngleOffset = 0
 let dialRotation = 0
 let line
 let bgRect
@@ -92,6 +93,7 @@ function loadData() {
     .then(response => response.json())
     .then(json => {
       objkts = json.data.generativeToken.entireCollection
+      objkts = _.sortBy(objkts, 'iteration')
       // console.log("KAKAK", json.data.generativeToken.entireCollection)
       _.delay(kickoffMain, 1000)
       // kickoff()
@@ -150,7 +152,7 @@ function kickoffMain() {
   stage.addChild(line)
 
 
-  makeDialUnits(numUnits)
+  makeDialUnits(objkts)
   // dialHand = new lib.DialHand()
   dialHand = new cjs.Shape()  
   dialHand.graphics.setStrokeStyle(1).beginStroke("rgba(255,255,255,1)")
@@ -182,8 +184,15 @@ function kickoffMain() {
       new cjs.Point(e.clientX, e.clientY)
 
     let angle = getAngle(container, p)
-    granAnglePrev = getGranularAngle(angle, numUnits)
-    granAngleCurrent = granAnglePrev
+    
+    // granAnglePrev = getGranularAngle(angle, numUnits)
+    // granAngleCurrent = granAnglePrev  
+
+    // granAnglePrev = getGranularAngle(angle, numUnits)
+    granAngleCurrent = getGranularAngle(angle, numUnits)
+    granAngleOffset = granAngleCurrent - dialRotation
+
+
     // visDialInteraction(p)
     document.addEventListener("touchmove", handleDialMove)
     document.addEventListener("touchend", handleDialEnd)
@@ -200,8 +209,9 @@ function kickoffMain() {
     granAngleDelta = granAngleCurrent - granAnglePrev
     if (granAngleDelta !== 0) {
       // click.play(0,0)
-      dialRotation += granAngleDelta
-      loadIteration(Math.ceil((dialRotation % 360)/increment))
+      // dialRotation += granAngleDelta
+      dialRotation = granAngleCurrent - granAngleOffset
+      loadIteration(Math.round((dialRotation % 360)/increment))
       dialHand.rotation = dialRotation
       let toStep = granAngleDelta < 0 ? -1 : 1
       stepLoader(toStep)
@@ -270,16 +280,28 @@ function getGranularAngle(angle, numUnits) {
   return closest
 }
 
-function makeDialUnits(numUnits) {
+function makeDialUnits(objkts) {
+
+  let numUnits = objkts.length
 
   dialFace = new cjs.Container()
   dialUnits = _.times(numUnits, makeDialUnit)
   container.addChild(dialFace)
 
   function makeDialUnit(index) {
-    let degrees = (360 / numUnits) * index
+    let objktData = objkts[index]
+    let degrees = (360 / numUnits) * (index + 1)
     let point = PTUtils.polarDegrees(faceRadius, degrees)
-    let dialUnit = new lib.DialUnit()
+
+    bootFXHash(objktData.generationHash)
+    currentColorScheme = fxSample(colorschemes)
+    currentBGColor = fxSample(currentColorScheme)
+
+    // let dialUnit = new lib.DialUnit()
+    let dialUnit = new cjs.Shape()
+    dialUnit.graphics.setStrokeStyle(6).beginStroke("#" + currentBGColor)
+    dialUnit.graphics.moveTo(0, 0)
+    dialUnit.graphics.lineTo(0, -20)
     dialUnit.rotation = degrees
     dialUnit.x = point.x
     dialUnit.y = point.y

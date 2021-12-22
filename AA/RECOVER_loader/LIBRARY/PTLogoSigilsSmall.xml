@@ -1,4 +1,4 @@
-<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="PTLogoSigilsSmall" itemID="61c0f86e-000000a0" lastModified="1640169031">
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="PTLogoSigilsSmall" itemID="61c0f86e-000000a0" lastModified="1640169833">
   <timeline>
     <DOMTimeline name="PTLogoSigilsSmall" currentFrame="6" layerDepthEnabled="true">
       <layers>
@@ -192,8 +192,7 @@
                     </StrokeStyle>
                   </strokes>
                   <edges>
-                    <Edge strokeStyle="1" edges="
-!91 -1087.5[#82.9D #FFFBCC.4D 165.5 -1053!280 -924.5[#124.C2 #FFFC7E.22 300 -869!294 -692.5[#11B.3A #FFFD6C.1B 265 -630.5!134.5 -512.5[#6E.4E #FFFE0B.7C 84 -493.5!-147 -1063[#FFFF8C.7E #FFFBC7.53 -80.5 -1090!-295 -882[#FFFEE2.7A #FFFC6E.6A
+                    <Edge strokeStyle="1" edges="!91 -1087.5[#82.9D #FFFBCC.4D 165.5 -1053!280 -924.5[#124.C2 #FFFC7E.22 300 -869!294 -692.5[#11B.3A #FFFD6C.1B 265 -630.5!134.5 -512.5[#6E.4E #FFFE0B.7C 84 -493.5!-147 -1063[#FFFF8C.7E #FFFBC7.53 -80.5 -1090!-295 -882[#FFFEE2.7A #FFFC6E.6A
  -269 -942!-272 -645.5[#FFFEDF.CC #FFFD5D.4F -297 -707!-94 -497[#FFFF81.B6 -507.125 -155.5 -524.5"/>
                     <Edge cubics="!95 -1111(;93,-1075 68,-1042 34,-1031q95 -1111Q94 -1084q77 -1062Q59 -1039q34 -1031);"/>
                     <Edge cubics="!34 -1031(;-6,-1017 -55,-1037 -74,-1075q34 -1031Q4 -1020q-28 -1033Q-60 -1046q-74 -1075);"/>
@@ -235,6 +234,11 @@
                     <Edge cubics="!131 -519(;114,-552 120,-594 145,-621q131 -519Q118 -544q122 -572Q126 -601q145 -621);"/>
                     <Edge cubics="!145 -621(;170,-647 212,-656 245,-642q145 -621Q164 -641q192 -646Q220 -652q245 -642);"/>
                     <Edge cubics="!245 -642(;279,-628 301,-591 300,-555q245 -642Q270 -632q286 -607Q301 -582q300 -555);"/>
+                    <Edge cubics="!-211 -416(;-212,-381 -237,-347 -271,-336q-211 -416Q-212 -390q-229 -367Q-246 -344q-271 -336);"/>
+                    <Edge cubics="!-271 -336(;-311,-322 -360,-342 -380,-380q-271 -336Q-301 -325q-333 -338Q-365 -351q-380 -380);"/>
+                    <Edge cubics="!-380 -380(;-396,-412 -390,-454 -365,-481q-380 -380Q-392 -404q-388 -432Q-384 -461q-365 -481);"/>
+                    <Edge cubics="!-365 -481(;-341,-508 -299,-517 -265,-503q-365 -481Q-347 -501q-319 -507Q-291 -513q-265 -503);"/>
+                    <Edge cubics="!-265 -503(;-232,-489 -209,-452 -211,-416q-265 -503Q-240 -492q-225 -468Q-209 -443q-211 -416);"/>
                   </edges>
                 </DOMShape>
               </elements>
