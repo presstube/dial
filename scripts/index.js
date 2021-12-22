@@ -35,6 +35,7 @@ let line
 let bgRect
 let currentColorScheme
 let currentBGColor
+let darkMode = true
 let units = _.times(numUnits, index => {
   return index * increment
 })
@@ -45,7 +46,7 @@ let units = _.times(numUnits, index => {
 //       path: './sounds/click3.wav',
 //       loop: false }
 // }, function() {
-//   console.log('sound file loaded: ', );
+  console.log('sound file loaded: ', );
 // })
 
 let colorschemes = [
@@ -69,7 +70,7 @@ function loadLoaderLib() {
     let comp = AdobeAn.getComposition("6E551C23227A4C0691433EE6D5852D40")
     loaderLib = comp.getLibrary()
 
-    console.log("loaded loader lib")
+    // console.log("loaded loader lib")
 
     kickoffLoader()
 
@@ -91,7 +92,7 @@ function loadData() {
     .then(response => response.json())
     .then(json => {
       objkts = json.data.generativeToken.entireCollection
-      console.log("KAKAK", json.data.generativeToken.entireCollection)
+      // console.log("KAKAK", json.data.generativeToken.entireCollection)
       _.delay(kickoffMain, 1000)
       // kickoff()
     })
@@ -103,7 +104,7 @@ function kickoffLoader() {
 
   bgRect = new cjs.Shape()
   container.addChild(bgRect)
-  colorBG('#0000FF')
+  // colorBG('#0000FF')
 
   loader = new loaderLib.PTLogoSigilsSmall()
   container.addChild(loader)
@@ -112,13 +113,13 @@ function kickoffLoader() {
 }
 
 function colorBG(color) {
-  console.log("colorBG: ", color)
+  // console.log("colorBG: ", clearig)
+  bgRect.graphics.clear()
   bgRect.graphics.beginFill(color).drawRect(-5000, -5000, 10000, 10000)
 }
 
 
 function posPT() {
-  // console.log("asdasd: ", loader.width, loader.height)
   let margin = 60
   loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
   loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
@@ -127,7 +128,6 @@ function posPT() {
 }
 
 function posLemonPrincessType() {
-  // console.log("asdasd: ", loader.width, loader.height)
   // let margin = 80
   lemonPrincessType.x = (-(stage.width / 2) / scaler) + (120/scaler)
   lemonPrincessType.y = (-(stage.height / 2) / scaler) + (50/scaler)
@@ -141,7 +141,7 @@ function kickoffMain() {
   posPT()
 
   window.addEventListener("keydown", e => {
-    console.log("KEY: ", e)
+    // console.log("KEY: ", e)
     if (e.key == "g") {
     }
   })
@@ -236,19 +236,23 @@ function tick(e) {
 
 function loadIteration(iteration) {
   iteration = iteration < 1 ? numUnits + iteration : iteration
-  console.log('iter: ', iteration)
+  // console.log('iter: ', iteration)
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
   }), 'generationHash');
   bootFXHash(fxhash)
-  console.log('fxhash', fxhash)
   currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
-  colorBG("#" + fxSample(currentColorScheme))
+  colorBG("#" + currentBGColor)
+  let currentLightOrDark = lightOrDark(currentBGColor)
+  if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
+    setDarkMode(!darkMode)
+  }
+  // console.log('lightOrDark', lightOrDark(currentBGColor))
   let displayNum = iteration.toString()
   displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
   displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
-  console.log("displayNum: ", displayNum.length)
+  // console.log("displayNum: ", displayNum.length)
   document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
   // document.getElementById('overlayhash').innerHTML = '<p>' + fxhash + '</p>'
 }
@@ -281,12 +285,11 @@ function makeDialUnits(numUnits) {
     dialUnit.y = point.y
     dialFace.addChild(dialUnit)
     return dialUnit
-    // console.log('point: ', point)
   }
 }
 
 function stepLoader(steps) {
-  console.log('tostep: ', steps)
+  // console.log('tostep: ', steps)
   let nextFrame = loader.currentFrame + steps
   nextFrame = nextFrame < 0 ? loader.totalFrames - 1 : nextFrame
   nextFrame = nextFrame > loader.totalFrames ? 0 : nextFrame
@@ -297,16 +300,146 @@ function stepLoader(steps) {
 
 let oldResize = window.onresize
 window.onresize = e => {
-  console.log("new resize")
+  // console.log("new resize")
   oldResize(e)
   posPT()
   posLemonPrincessType()
 }
 
 
+function lightOrDark(color) {
 
+    // Variables for red, green, blue values
+    var r, g, b, hsp;
+    
+    // Check the format of the color, HEX or RGB?
+    if (color.match(/^rgb/)) {
 
+        // If RGB --> store the red, green, blue values in separate variables
+        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+        
+        r = color[1];
+        g = color[2];
+        b = color[3];
+    } 
+    else {
+        
+        // If hex --> Convert it to RGB: http://gist.github.com/983661
+        color = +("0x" + color.slice(1).replace( 
+        color.length < 5 && /./g, '$&$&'));
 
+        r = color >> 16;
+        g = color >> 8 & 255;
+        b = color & 255;
+    }
+    
+    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+    hsp = Math.sqrt(
+    0.299 * (r * r) +
+    0.587 * (g * g) +
+    0.114 * (b * b)
+    );
+
+    // Using the HSP value, determine whether the color is light or dark
+    if (hsp > 127.5) {
+    // if (hsp > 50) {
+
+        return 'light';
+    } 
+    else {
+
+        return 'dark';
+    }
+}
+
+function setDarkMode(isDark) {
+  darkMode = isDark
+  if (isDark) {
+    document.getElementById("overlay").style.color = "#EEEEEE"
+    simpleRecolor(lemonPrincessType, "#EEEEEE")
+    simpleRecolor(loader, "#EEEEEE")
+  } else {
+    document.getElementById("overlay").style.color = "#000033"
+    simpleRecolor(lemonPrincessType, "#000033")
+    simpleRecolor(loader, "#000033")
+  }
+}
+
+// wretched
+function simpleRecolor(item, color) { 
+  let currentFrame = item.currentFrame
+  let paused = item.paused
+  _.times(item.totalFrames, frameIndex => {
+    item.gotoAndStop(frameIndex)
+    _.times(item.children.length, childIndex => {
+      if (item.children[childIndex].graphics._stroke) {
+        item.children[childIndex].graphics._stroke.style = color
+      }
+    })
+  })
+  item.gotoAndStop(currentFrame)
+  if (item.paused) item.play()
+}
+
+function recolor(item, itemData, color, depth) {
+  depth = !depth ? 1 : depth
+  let tempColor = color 
+  let colorShiftRange = 5
+  let colorShiftAmount = fxrand()/colorShiftRange - fxrand()/colorShiftRange
+  tempColor = pSBC(colorShiftAmount, tempColor)
+  let strokeColor = pSBC(-0.4, tempColor)
+  if (itemData.fill) recolorFill(item, tempColor)
+  if (itemData.stroke) {
+    recolorStroke(item, strokeColor, itemData.pureStrokes)
+    setStrokeWidth(item, 2 * depth, itemData.pureStrokes)
+  }
+}
+
+function recolorFill(item, color) {
+  _.times(item.totalFrames, frameIndex => {
+    item.gotoAndStop(frameIndex) 
+    item.children[0].graphics._fill.style = color
+  })
+}
+
+function recolorStroke(item, color, pure) {
+  if (pure) {
+    _.times(item.children.length, childIndex => {
+      _.times(item.totalFrames, frameIndex => {
+        item.gotoAndStop(frameIndex) 
+        item.children[childIndex].graphics._stroke.style = color
+      })
+    })
+  } else {
+    _.times(item.totalFrames, frameIndex => {
+      item.gotoAndStop(frameIndex) 
+      item.children[1].graphics._stroke.style = color
+    })
+  }
+  // console.log("chasdoij", item.children)
+
+}
+
+function setStrokeWidth(item, width, pure) {
+  // _.times(item.totalFrames, frameIndex => {
+  //   item.gotoAndStop(frameIndex) 
+  //   item.children[1].graphics._strokeStyle.width = width
+  // })
+
+  if (pure) {
+    _.times(item.children.length, childIndex => {
+      _.times(item.totalFrames, frameIndex => {
+        item.gotoAndStop(frameIndex)
+        item.children[childIndex].graphics._strokeStyle.width = width
+      })
+    })
+  } else {
+    _.times(item.totalFrames, frameIndex => {
+      item.gotoAndStop(frameIndex) 
+      item.children[1].graphics._strokeStyle.width = width
+    })
+  }
+}
 
 
 
