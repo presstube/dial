@@ -33,6 +33,8 @@ let granAngleDelta = 0
 let dialRotation = 0
 let line
 let bgRect
+let currentColorScheme
+let currentBGColor
 let units = _.times(numUnits, index => {
   return index * increment
 })
@@ -100,14 +102,18 @@ function kickoffLoader() {
   createjs.Ticker.addEventListener("tick", tick)
 
   bgRect = new cjs.Shape()
-  console.log("bgRect:", bgRect)
-  bgRect.graphics.beginFill('#FF0000').drawRect(0, 0, 200, 200)
   container.addChild(bgRect)
+  colorBG('#0000FF')
 
   loader = new loaderLib.PTLogoSigilsSmall()
   container.addChild(loader)
 
   loadLib()
+}
+
+function colorBG(color) {
+  console.log("colorBG: ", color)
+  bgRect.graphics.beginFill(color).drawRect(-5000, -5000, 10000, 10000)
 }
 
 
@@ -234,7 +240,11 @@ function loadIteration(iteration) {
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
   }), 'generationHash');
+  bootFXHash(fxhash)
   console.log('fxhash', fxhash)
+  currentColorScheme = fxSample(colorschemes)
+  currentBGColor = fxSample(currentColorScheme)
+  colorBG("#" + fxSample(currentColorScheme))
   let displayNum = iteration.toString()
   displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
   displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
