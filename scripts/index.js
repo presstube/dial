@@ -51,6 +51,8 @@ let units = _.times(numUnits, index => {
 // })
 
 let colorschemes = [
+
+
   ["331832","d81e5b","f0544f","c6d8d3","fdf0d5"],
   ["1b2f33","28502e","47682c","8c7051","ef3054"],
   ["ea526f","070600","f7f7ff","23b5d3","279af1"],
@@ -115,7 +117,6 @@ function kickoffLoader() {
 }
 
 function colorBG(color) {
-  // console.log("colorBG: ", clearig)
   bgRect.graphics.clear()
   bgRect.graphics.beginFill(color).drawRect(-5000, -5000, 10000, 10000)
 }
@@ -173,7 +174,8 @@ function kickoffMain() {
   document.addEventListener("touchstart", e => { handleDialStart(e.touches[0])})
   document.addEventListener("mousedown", handleDialStart)
 
-  loadIteration(1)
+  // loadIteration(1)
+  startPrincess(1)
 
   function handleDialStart(e) {
     // click.play(0,0)
@@ -212,7 +214,9 @@ function kickoffMain() {
       // dialRotation += granAngleDelta
       dialRotation = granAngleCurrent - granAngleOffset
       let iteration = Math.round((dialRotation % 360)/increment) + 1
-      loadIteration(iteration)
+      iteration = iteration < 1 ? numUnits + iteration : iteration 
+      // loadIteration(iteration)
+      startPrincess(iteration)
       dialHand.rotation = dialRotation
       loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
 
@@ -248,7 +252,8 @@ function tick(e) {
 }
 
 function loadIteration(iteration) {
-  iteration = iteration < 1 ? numUnits + iteration : iteration
+  // should be sanitizing this before it comes in
+  iteration = iteration < 1 ? numUnits + iteration : iteration 
   // console.log('iter: ', iteration)
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
@@ -472,10 +477,74 @@ function setStrokeWidth(item, width, pure) {
 
 
 
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+let princessItems = []
+let maxItems = 5
+let minItems = 5
+let numItems
+
+let primaryAssetData = [
+  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
+  {name: "BugmaAnchor", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Looper0", playhead: "loop", fill: true, stroke:true},
+  {name: "Constellation0", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "Looper2", playhead: "loop", fill: true, stroke:false},
+  {name: "Looper3", playhead: "loop", fill: true, stroke:false},
+  {name: "Hairy0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+]
+
+function startPrincess(iteration) {
+  // console.log('starting princess:', iteration)
+  
+  destroyCurrentPrincess()
+
+  // booting fxhash
+  let fxhash = _.result(_.find(objkts, function(objkt) {
+    return objkt.iteration == iteration;
+  }), 'generationHash');
+  bootFXHash(fxhash)
 
 
+  // setting up color scheme, choosing bg color, painting bg
+  currentColorScheme = fxSample(colorschemes)
+  currentBGColor = fxSample(currentColorScheme)
+  colorBG("#" + currentBGColor)
 
+  // setting initial values - comes after color so that color can be first thing easily for interface
+  numItems = Math.floor(fxrand() * maxItems) + minItems
 
+  // painting UI as dark or light mode
+  let currentLightOrDark = lightOrDark(currentBGColor)
+  if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
+    setDarkMode(!darkMode)
+  }
+
+  // rendering hash & edition #s
+  let displayNum = iteration.toString()
+  displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
+  displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
+  // console.log("displayNum: ", displayNum.length)
+  document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
+
+  spawnNewPrincess()
+
+}
+
+function destroyCurrentPrincess() {
+  console.log('destroying current princess')
+}
+
+function spawnNewPrincess() {
+  console.log('spawning current princess')
+  console.log('numItems: ', numItems)
+
+}
 
 
 

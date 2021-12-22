@@ -1,0 +1,56 @@
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#000000" width="800" height="800" frameRate="30" currentTimeline="1" xflVersion="22.01" creatorInfo="Adobe Animate" platform="Macintosh" versionInfo="Saved by Animate Macintosh 22.0 build 105" majorVersion="22" buildNumber="105" gridSnapTo="true" guidesSnapTo="false" bitmapSnap="false" viewAngle3D="74.2651684569298" vanishingPoint3DX="400" vanishingPoint3DY="400" previewMode="fast" nextSceneIdentifier="2" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" filetypeGUID="3CE50BB6-55CF-47A6-B591-01286DDDC64C" fileGUID="8FDB32F06FB548E7B7EE8A257F77C6A3">
+     <symbols>
+          <Include href="LemonPrincessType.xml" loadImmediate="false" itemID="61c24593-000000bb" lastModified="1640121944"/>
+     </symbols>
+     <timelines>
+          <DOMTimeline name="Scene 1" currentFrame="5" layerDepthEnabled="true">
+               <layers>
+                    <DOMLayer name="Layer_1" color="#00FFFF">
+                         <frames>
+                              <DOMFrame index="0" duration="12" keyMode="9728">
+                                   <elements>
+                                        <DOMSymbolInstance libraryItemName="LemonPrincessType" symbolType="graphic" loop="loop">
+                                             <matrix>
+                                                  <Matrix tx="399.95" ty="372.6"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="0.05" y="-12.6"/>
+                                             </transformationPoint>
+                                             <color>
+                                                  <Color tintMultiplier="1" tintColor="#FFFF99"/>
+                                             </color>
+                                        </DOMSymbolInstance>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+                    <DOMLayer name="Layer_2" color="#9933CC" current="true" isSelected="true">
+                         <frames>
+                              <DOMFrame index="0" duration="12" keyMode="9728">
+                                   <elements>
+                                        <DOMShape>
+                                             <fills>
+                                                  <FillStyle index="1">
+                                                       <SolidColor color="#0D0600"/>
+                                                  </FillStyle>
+                                             </fills>
+                                             <edges>
+                                                  <Edge fillStyle1="1" edges="!0 0|16000 0!16000 0|16000 16000!16000 16000|0 16000!0 16000|0 0"/>
+                                             </edges>
+                                        </DOMShape>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+               </layers>
+          </DOMTimeline>
+     </timelines>
+     <scripts>
+          <GlobalScripts language="Javascript"/>
+     </scripts>
+     <persistentData>
+          <PD n="CreateJSToolkit_timelinedata" v="version&#xA;0.1&#xA;loop&#xA;true"/>
+     </persistentData>
+     <PrinterSettings platform="macintosh"/>
+     <publishHistory/>
+</DOMDocument>
