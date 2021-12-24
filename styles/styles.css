@@ -66,8 +66,9 @@ body {
 }
 
 .num {
-	margin: none;
-	font-size: 1em;
+	margin: 0px;
+	padding: 0px;
+	font-size: 2em;
 }
 
 

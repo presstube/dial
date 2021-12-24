@@ -4,3 +4,14 @@ TODO
 
 - make the light/dark mode recolor code better
 	- make a list of objects who need to get recolored rather than guts out
+	- abstract the UI recolor routine to accept a color
+	- color the UI with the secondary color
+	- detect light/dark and brighten UI a few shades if dark, or darken if light
+- pull the "features"
+	- Open up a space in the code for them
+	- Pull synchrony
+	- 
+- load next and prev
+	- wire click
+	- wire left/right arrows
+- 

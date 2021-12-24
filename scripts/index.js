@@ -10,8 +10,11 @@ function fxSample(arr) {
 
 let AALoaderLib = document.createElement("script")
 let AALib = document.createElement("script")
+let AALibPile = document.createElement("script")
 let loaderLib
 let lib
+let libPile
+
 let loader
 let lemonPrincessType
 let objkts
@@ -89,11 +92,25 @@ function loadLoaderLib() {
 }
 
 function loadLib() {
+  console.log("loading lib ")
   AALib.setAttribute("src", "AA/lib.js")
   document.body.appendChild(AALib)
   AALib.addEventListener("load", () => {
-    let comp=AdobeAn.getComposition("1B1D331872B84B678B30A74AB80E74A9")
-    lib=comp.getLibrary()
+    console.log("completed loading lib ")
+    let comp = AdobeAn.getComposition("1B1D331872B84B678B30A74AB80E74A9")
+    lib = comp.getLibrary()
+    loadLibPile()
+  }, false)
+}
+
+function loadLibPile() {
+  console.log("loading lib pile")
+  AALibPile.setAttribute("src", "AA/lib-pile.js")
+  document.body.appendChild(AALibPile)
+  AALibPile.addEventListener("load", () => {
+    console.log("completed loading lib pile")
+    let comp = AdobeAn.getComposition("9DDB8738695F40A58CB0CE0618646207")
+    libPile = comp.getLibrary()
     loadData()
   }, false)
 }
@@ -105,13 +122,14 @@ function loadData() {
       objkts = json.data.generativeToken.entireCollection
       objkts = _.sortBy(objkts, 'iteration')
       // console.log("KAKAK", json.data.generativeToken.entireCollection)
-      _.delay(kickoffMain, 1000)
+      // _.delay(kickoffMain, 1000)
+      kickoffMain()
       // kickoff()
     })
 }
 
 function kickoffLoader() {
-  cjs.Ticker.framerate = 30
+  cjs.Ticker.framerate = 24
   createjs.Ticker.addEventListener("tick", tick)
 
   bgRect = new cjs.Shape()
@@ -169,7 +187,7 @@ function kickoffMain() {
   dialHand.graphics.lineTo(0, -dialOuterRadius)
   // dialHand.graphics.endStroke()
   dialFace.addChild(dialHand)
-  // dialFace.alpha = 0
+  dialFace.alpha = 0
 
   crosshairs = new lib.Crosshairs()
   dialFace.addChild(crosshairs)
@@ -477,19 +495,19 @@ let secondaryAssetData = [
   {name: "Sakkaya0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  // {name: "Sakkaya17", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya17", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
 function startPrincess(iteration) {
@@ -540,8 +558,8 @@ function destroyCurrentPrincess() {
 
 function destroyPrincessItem(item) {
   // cjs.Tween.get(item, {override:true})
-  //   .wait(Math.random() * tweenWaitMax)
-  //   .to({scaleX: 0, scaleY: 0}, tweenDuration, tweenEaseIn)
+  //   .wait(Math.random() * 100)
+  //   .to({scaleX: 0, scaleY: 0}, 200, tweenEaseIn)
   //   .call(e => {
   //     container.removeChild(item)
   //     item.removeEventListener('tick')
@@ -568,7 +586,7 @@ function makePulsor(index) {
   let itemData = primaryAssetData[assetID]
   // let itemData = assetData[1]
 
-  let item = new lib[itemData.name]()
+  let item = new libPile[itemData.name]()
 
   recolor(item, itemData, color)
 
@@ -631,13 +649,14 @@ function makePulsor(index) {
 
   function makeNested() {
     let nestedItemData = fxSample(primaryAssetData)
+    // console.log("asdasdsa:", nestedItemData)
     // let nestedItemData = secondaryAssetData[2]
-    let nestedItem = new lib[nestedItemData.name]()
+    let nestedItem = new libPile[nestedItemData.name]()
     nestedItem.scaleX = nestedItem.scaleY = 0.5
     let nestedItemForward = true
 
     recolor(nestedItem, nestedItemData, nestedColor, 2)
-    nestedItem.gotoAndStop(Math.floor(fxrand() * item.totalFrames))
+    nestedItem.gotoAndStop(Math.floor(fxrand() * nestedItem.totalFrames)) // synchrony
     if (itemData.playhead == "pingpong") {
       nestedItem.addEventListener('tick', e => {
         if (nestedItemForward) {
@@ -669,9 +688,8 @@ function makeSegundo(index) {
   }
   console.log("secAssetID: ", secAssetID)
   let itemData = secondaryAssetData[secAssetID]
-  let item = new lib[itemData.name]()
+  let item = new libPile[itemData.name]()
   recolor(item, itemData, color)
-  item.play()
   item.x = fxrand() * xMoveRangeSec - fxrand() * xMoveRangeSec
   item.y = fxrand() * yMoveRangeSec - fxrand() * yMoveRangeSec
   let targetScaleX = fxrand() < 0.4 ? 1 : -1
@@ -681,6 +699,8 @@ function makeSegundo(index) {
     .to({scaleX: targetScaleX, scaleY: 1}, tweenDuration, tweenEaseIn)
   item.rotation = fxrand()*360
   container.addChildAt(item, Math.floor(fxrand()*container.children.length))
+  item.gotoAndPlay(Math.floor(fxrand() * item.totalFrames))
+  // item.stop()
   return item
 }
 
