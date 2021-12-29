@@ -42,6 +42,7 @@ let currentBGColor
 let darkMode = true
 let iteration
 let dialInterval
+let clickTimeout
 let units = _.times(numUnits, index => {
   return index * increment
 })
@@ -170,8 +171,11 @@ function kickoffMain() {
   posPT()
 
   window.addEventListener("keydown", e => {
-    // console.log("KEY: ", e)
-    if (e.key == "g") {
+    console.log("KEY: ", e)
+    if (e.key == "ArrowLeft") {
+      handlePrev()
+    } else if (e.key == "ArrowRight") {
+      handleNext()
     }
   })
 
@@ -196,11 +200,11 @@ function kickoffMain() {
   container.addChild(lemonPrincessType)
   posLemonPrincessType()
 
-
   document.addEventListener("touchstart", e => { handleDialStart(e.touches[0])})
   document.addEventListener("mousedown", handleDialStart)
+  document.addEventListener("click", handleNext)
 
-  // loadIteration(1)
+  loadIteration(1)
   startPrincess(1)
 
   function handleDialStart(e) {
@@ -232,6 +236,7 @@ function kickoffMain() {
   }
 
   function handleDialMove(e) {
+    document.removeEventListener("click", handleNext)
     let p = e.touches ? 
       new cjs.Point(e.touches[0].clientX, e.touches[0].clientY) : 
       new cjs.Point(e.clientX, e.clientY)
@@ -244,6 +249,7 @@ function kickoffMain() {
       dialRotation = granAngleCurrent - granAngleOffset
       let rawIteration = Math.round((dialRotation % 360)/increment) + 1
       iteration = rawIteration < 1 ? numUnits + rawIteration : rawIteration 
+      iteration = iteration < 1 ? numUnits + iteration : iteration 
       loadIteration(iteration)
       dialHand.rotation = dialRotation
       loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
@@ -271,6 +277,10 @@ function kickoffMain() {
     document.removeEventListener("mousemove", handleDialMove)
     document.removeEventListener("mouseup", handleDialEnd)
     startPrincess(iteration)
+    // document.addEventListener("click", handleNext)
+    _.delay(e => {
+      document.addEventListener("click", handleNext)
+    }, 10)
   }
 
   function visDialInteraction(p) {
@@ -283,13 +293,40 @@ function kickoffMain() {
 
 }
 
+function handlePrev() {
+  let firstIter = objkts[0].iteration
+  let lastIter = objkts[objkts.length-1].iteration
+  let newIter
+  if (iteration == firstIter) {
+    newIter = lastIter
+  } else {
+    newIter = iteration - 1
+  }
+  loadIteration(newIter)
+  destroyCurrentPrincess()
+  startPrincess(newIter)
+}
+
+function handleNext() {
+  let firstIter = objkts[0].iteration
+  let lastIter = objkts[objkts.length-1].iteration
+  let newIter
+  if (iteration == lastIter) {
+    newIter = firstIter
+  } else {
+    newIter = iteration + 1
+  }
+  loadIteration(newIter)
+  destroyCurrentPrincess()
+  startPrincess(newIter)
+}
+
 function tick(e) {
   stage.update()
 }
 
-function loadIteration(iteration) {
-  // should be sanitizing this before it comes in
-  iteration = iteration < 1 ? numUnits + iteration : iteration 
+function loadIteration(iter) {
+  iteration = iter
   // console.log('iter: ', iteration)
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
@@ -312,6 +349,7 @@ function loadIteration(iteration) {
   // console.log("displayNum: ", displayNum.length)
   document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
   // document.getElementById('overlayhash').innerHTML = '<p>' + fxhash + '</p>'
+  // startPrincess(iteration)
 }
 
 function getAngle(p1, p2) {
@@ -441,10 +479,8 @@ function setDarkMode(isDark) {
 function recolorUI(color) {
   // check to see if it's dark or light
   let darkOrLight = lightOrDark(color)
-  console.log("darkOrLight: ", darkOrLight)
-  let shiftAmount = darkOrLight == "dark" ? 0.3 : -0.4
+  let shiftAmount = darkOrLight == "dark" ? 0.3 : -0.6
   let UIColor = pSBC( shiftAmount, color );
-  console.log("UIColor: ", UIColor)
   document.getElementById("overlay").style.color = UIColor
   simpleRecolor(lemonPrincessType, UIColor)
   simpleRecolor(loader, UIColor)
@@ -592,7 +628,6 @@ function destroyPrincessItem(item) {
 
 function spawnNewPrincess() {
   color = "#" + fxSample(currentColorScheme)
-  // recolorUI(color)
   nestedColor = "#" + fxSample(currentColorScheme)
   items = _.times(numItems, makePulsor)
   secItems = _.times(numItems, makeSegundo)
@@ -707,7 +742,6 @@ function makeSegundo(index) {
   if (fxrand() < 0.4) {
     secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
   }
-  console.log("secAssetID: ", secAssetID)
   let itemData = secondaryAssetData[secAssetID]
   let item = new libPile[itemData.name]()
   recolor(item, itemData, color)
