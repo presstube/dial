@@ -298,10 +298,13 @@ function loadIteration(iteration) {
   currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
-  let currentLightOrDark = lightOrDark(currentBGColor)
-  if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
-    setDarkMode(!darkMode)
-  }
+  recolorUI("#" + currentBGColor)
+
+  // let currentLightOrDark = lightOrDark(currentBGColor)
+  // if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
+  //   setDarkMode(!darkMode)
+  // }
+
   // console.log('lightOrDark', lightOrDark(currentBGColor))
   let displayNum = iteration.toString()
   displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
@@ -435,6 +438,23 @@ function setDarkMode(isDark) {
   }
 }
 
+function recolorUI(color) {
+  // check to see if it's dark or light
+  let darkOrLight = lightOrDark(color)
+  console.log("darkOrLight: ", darkOrLight)
+  let shiftAmount = darkOrLight == "dark" ? 0.3 : -0.4
+  let UIColor = pSBC( shiftAmount, color );
+  console.log("UIColor: ", UIColor)
+  document.getElementById("overlay").style.color = UIColor
+  simpleRecolor(lemonPrincessType, UIColor)
+  simpleRecolor(loader, UIColor)
+  simpleRecolor(crosshairs, UIColor)
+  dialHand.graphics._stroke.style = UIColor
+
+  // choose a darkened version of color if light, or lightened version if dark
+  // apply new color to interface elements
+}
+
 // wretched
 function simpleRecolor(item, color) { 
   let currentFrame = item.currentFrame
@@ -531,11 +551,11 @@ function startPrincess(iteration) {
   assetID = Math.floor(fxrand() * primaryAssetData.length)
   secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
 
-  // painting UI as dark or light mode
-  let currentLightOrDark = lightOrDark(currentBGColor)
-  if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
-    setDarkMode(!darkMode)
-  }
+  // // painting UI as dark or light mode
+  // let currentLightOrDark = lightOrDark(currentBGColor)
+  // if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
+  //   setDarkMode(!darkMode)
+  // }
 
   // rendering hash & edition #s
   let displayNum = iteration.toString()
@@ -572,6 +592,7 @@ function destroyPrincessItem(item) {
 
 function spawnNewPrincess() {
   color = "#" + fxSample(currentColorScheme)
+  // recolorUI(color)
   nestedColor = "#" + fxSample(currentColorScheme)
   items = _.times(numItems, makePulsor)
   secItems = _.times(numItems, makeSegundo)
