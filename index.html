@@ -51,7 +51,11 @@
       var fxrand = sfc32(...hashes)
 
       function bootFXHash(hash) {
-        fxhash = hash
+        if (hash) {
+          fxhash = hash
+        } else {
+          fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
+        }
         b58dec = (str) => str.split('').reduce((p,c,i) => p + alphabet.indexOf(c) * (Math.pow(alphabet.length, str.length-i-1)), 0)
         fxhashTrunc = fxhash.slice(2)
         regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
@@ -69,6 +73,7 @@
           }
         }
         fxrand = sfc32(...hashes)
+        return fxhash
       }
 
 

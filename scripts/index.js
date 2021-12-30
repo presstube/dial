@@ -73,6 +73,14 @@ let colorschemes = [
   ["c4bbaf","a5978b","5c4742","8d5b4c","5a2a27"],
   ["fbc2b5","ffa8a9","f786aa","a14a76","cdb2ab"],
   ["d8e2dc","ffffff","ffcad4","f4acb7","9d8189"],
+
+  // ["f45b69","f6e8ea","22181c","5a0001","f13030"],
+  // ["1d1e18","6b8f71","aad2ba","d9fff5","b9f5d8"],
+  // ["000000","ffffff","494949","7c7a7a","ff5d73"],
+  // ["25ced1","ffffff","fceade","ff8a5b","ea526f"],
+  // ["527a2c","ebb2ce","e6177b","6b4a5a","ffc7e2"],
+  // ["87946a","261e38","d631a2","c9bce6","381a7a"],
+  // ["98eb59","801912","cf1d11","ed5d53","c2534c"]
 ]
 
 
@@ -122,6 +130,10 @@ function loadData() {
     .then(json => {
       objkts = json.data.generativeToken.entireCollection
       objkts = _.sortBy(objkts, 'iteration')
+      objkts = _.map(objkts, objkt => {
+        objkt.generationHash = bootFXHash()
+        return objkt
+      })
       // console.log("KAKAK", json.data.generativeToken.entireCollection)
       // _.delay(kickoffMain, 1000)
       kickoffMain()
@@ -130,7 +142,7 @@ function loadData() {
 }
 
 function kickoffLoader() {
-  cjs.Ticker.framerate = 24
+  cjs.Ticker.framerate = 30
   createjs.Ticker.addEventListener("tick", tick)
 
   bgRect = new cjs.Shape()
@@ -171,7 +183,7 @@ function kickoffMain() {
   posPT()
 
   window.addEventListener("keydown", e => {
-    console.log("KEY: ", e)
+    // console.log("KEY: ", e)
     if (e.key == "ArrowLeft") {
       handlePrev()
     } else if (e.key == "ArrowRight") {
@@ -252,7 +264,7 @@ function kickoffMain() {
       iteration = iteration < 1 ? numUnits + iteration : iteration 
       loadIteration(iteration)
       dialHand.rotation = dialRotation
-      loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
+      
       
       // clearTimeout(dialInterval)
       // dialInterval = setTimeout(e => {
@@ -336,6 +348,9 @@ function loadIteration(iter) {
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
   recolorUI("#" + currentBGColor)
+
+  loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
+
 
   // let currentLightOrDark = lightOrDark(currentBGColor)
   // if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
@@ -504,7 +519,7 @@ function simpleRecolor(item, color) {
     })
   })
   item.gotoAndStop(currentFrame)
-  if (item.paused) item.play()
+  if (!paused) item.play()
 }
 
 
@@ -536,6 +551,7 @@ let rate = 1
 
 let primaryAssetData = [
   {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Pulsor1", playhead: "pingpong", fill: true, stroke:true},
   {name: "BugmaAnchor", playhead: "pingpong", fill: true, stroke:true},
   {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
   {name: "Looper0", playhead: "loop", fill: true, stroke:true},
@@ -545,6 +561,7 @@ let primaryAssetData = [
   {name: "Hairy0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "Thrumpus", playhead: "loop", fill: true, stroke:true},
 ]
 
 let secondaryAssetData = [
@@ -613,7 +630,7 @@ function destroyCurrentPrincess() {
 }
 
 function destroyPrincessItem(item) {
-  // cjs.Tween.get(item, {override:true})
+  // cjs.Tween.get(item, {override:false})
   //   .wait(Math.random() * 100)
   //   .to({scaleX: 0, scaleY: 0}, 200, tweenEaseIn)
   //   .call(e => {
@@ -642,7 +659,7 @@ function makePulsor(index) {
   let itemData = primaryAssetData[assetID]
   // let itemData = assetData[1]
 
-  let item = new libPile[itemData.name]()
+  let item = new lib[itemData.name]()
 
   recolor(item, itemData, color)
 
@@ -699,7 +716,7 @@ function makePulsor(index) {
   container.addChildAt(item, 1)
 
   if (item.anchor1) {
-    console.log("anchor found ")
+    // console.log("anchor found ")
     makeNested(item)
   } 
 
@@ -707,7 +724,7 @@ function makePulsor(index) {
     let nestedItemData = fxSample(primaryAssetData)
     // console.log("asdasdsa:", nestedItemData)
     // let nestedItemData = secondaryAssetData[2]
-    let nestedItem = new libPile[nestedItemData.name]()
+    let nestedItem = new lib[nestedItemData.name]()
     nestedItem.scaleX = nestedItem.scaleY = 0.5
     let nestedItemForward = true
 
