@@ -259,6 +259,7 @@ function kickoffMain() {
       dialRotation = granAngleCurrent - granAngleOffset
       let rawIteration = Math.round((dialRotation % 360)/increment) + 1
       iteration = rawIteration < 1 ? numUnits + rawIteration : rawIteration 
+      iteration = iteration > 300 ? 300 : iteration
       iteration = iteration < 1 ? numUnits + iteration : iteration 
       loadIteration(iteration)
       dialHand.rotation = dialRotation
