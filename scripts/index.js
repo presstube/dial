@@ -15,6 +15,10 @@ let loaderLib
 let lib
 let libPile
 
+let capturer
+let captureIndex = 0
+let capturing = false
+
 let loader
 let lemonPrincessType
 let objkts
@@ -301,6 +305,11 @@ function kickoffMain() {
     line.graphics.endStroke()
   }
 
+  capturer = new CCapture({
+    format: 'gif',
+    workersPath: 'libs/',
+    framerate: 30,
+  })
 }
 
 function handlePrev() {
@@ -333,6 +342,32 @@ function handleNext() {
 
 function tick(e) {
   stage.update()
+  
+  if (capturing) {
+    capturer.capture(canvas);
+    captureIndex++
+    if (captureIndex == 95) {
+      capturer.stop();
+      capturer.save(blob => {
+        // title.visible = true
+        download( blob, "presstube-lemon-princess-" + iteration + ".gif", "image/gif" );
+        // document.getElementById("overlay").style.visibility = "hidden"
+        // console.log("asdsad: ", onResize)
+        // window.onresize = window.savedResize
+        window.onresize()
+        loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
+        loader.visible = true
+        document.getElementById("overlay").style.visibility = "visible"
+
+        capturer = new CCapture({
+          format: 'gif',
+          workersPath: 'libs/',
+          framerate: 30,
+        })
+
+      });
+    }
+  }
 }
 
 function loadIteration(iter) {
@@ -407,38 +442,92 @@ function updateReadout() {
   ownerLink.classList.add("owner")
   overlay.appendChild(ownerLink)
 
+  let gifLink = document.createElement("a")
+  gifLink.innerHTML = "📽 Export as GIF"
+  gifLink.classList.add("owner")
+  gifLink.addEventListener("click", e => {
+    e.preventDefault()
+    gifExport()
+  })
+  overlay.appendChild(gifLink)
+
 
   if (data.offer) {
     // owner
+
     let offerLink = document.createElement("a")
     let offerLinkButton = document.createElement("button")
-    offerLink.innerHTML = "💸 "
-    offerLinkButton.innerHTML = String(data.offer.price / 1000000) + " tz"
-    offerLink.appendChild(offerLinkButton)
+    offerLink.innerHTML = "🟢 " + String(data.offer.price / 1000000) + "tz"
+    // offerLinkButton.innerHTML = String(data.offer.price / 1000000) + " tz"
+    // offerLink.appendChild(offerLinkButton)
     offerLink.href = "https://www.fxhash.xyz/objkt/slug/" + data.slug
     offerLink.target = "_blank"
     offerLink.classList.add("owner")
-    offerLinkButton.classList.add("collect")
+    // offerLink.classList.add("offer")
+    // offerLinkButton.classList.add("collect")
     overlay.appendChild(offerLink)
+
+    // let offerLink = document.createElement("a")
+    // let offerLinkButton = document.createElement("button")
+    // offerLink.innerHTML = "💸 "
+    // offerLinkButton.innerHTML = String(data.offer.price / 1000000) + " tz"
+    // offerLink.appendChild(offerLinkButton)
+    // offerLink.href = "https://www.fxhash.xyz/objkt/slug/" + data.slug
+    // offerLink.target = "_blank"
+    // offerLink.classList.add("owner")
+    // offerLinkButton.classList.add("collect")
+    // overlay.appendChild(offerLink)
   }
 
+}
 
-  // // console.log("data.owner: ", data)
-  // if (data.owner.name) {
-  //   owner = data.owner.name
-  //   // document.getElementById("ownerlink").innerHTML = "Owner - " + data.owner.name
-  //   // document.getElementById("owner").innerHTML = "Sack " + _.sample(dumbOwnerNouns) + ":</br>" + data.owner.name
-  // } else {
-  //   owner = data.owner.id.substring(0,8) + "..."
-  //   document.getElementById("ownerlink").innerHTML = "Owner - Anon " + data.owner.id.substring(0,8) + "..."
-  //   // document.getElementById("owner").innerHTML = "Sack " + _.sample(dumbOwnerNouns) + ":</br>" + data.owner.id
-  // }
+function gifExport() {
+  console.log("BEGIN")
 
-  // document.getElementById("ownerlink").href = "https://tzkt.io/" + data.owner.id
+  document.getElementById("overlay").style.visibility = "hidden"
+  
+  let dimensions = 350
+  let scaleBound = 700
 
-  // hash 
-  // // console.log("displayNum: ", displayNum.length)
-  // document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
+  canvas.width = dimensions
+  canvas.height = dimensions
+  scaler = 1
+  if (canvas.width < scaleBound || canvas.height < scaleBound) { 
+    let smallestScaleSize = canvas.width < canvas.height ? canvas.width : canvas.height
+    scaler = smallestScaleSize / scaleBound
+  }
+  container.scaleX = scaler
+  container.scaleY = scaler
+  container.x = canvas.width / 2
+  container.y = canvas.height / 2
+
+  stage.width = canvas.width
+  stage.height = canvas.height
+
+  let ratio = window.devicePixelRatio
+  if (ratio === undefined) return
+  canvas.setAttribute("width", dimensions * ratio)
+  canvas.setAttribute("height", dimensions * ratio)
+  stage.scaleX = stage.scaleY = ratio
+  canvas.style.width = dimensions + "px"
+  canvas.style.height = dimensions + "px"
+  
+  posPT()
+  posLemonPrincessType()
+  loader.play()
+  // loader.visible = false
+  loader.x = dimensions / 1.2
+  loader.y = dimensions / 1.2
+  loader.scaleX = loader.scaleY = 0.5
+
+  // window.savedResize = window.onresize
+  // window.onresize = null
+
+  // title.visible = false
+  captureIndex = 0
+  capturing = true
+  capturer.start();
+  // document.getElementById("gifreadout").style.visibility = "visible";
 }
 
 function getAngle(p1, p2) {

@@ -56,7 +56,7 @@ body {
 	justify-content: left;
 	align-items: left;
 	text-align: left;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 
 .hash {
@@ -68,6 +68,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	font-size: 2em;
+	font-style: italic;
 }
 
 .owner {
@@ -78,23 +79,24 @@ body {
 }
 
 .collect {
-  /*background-color: rgba(0, 255, 0, 0.5);*/
-  background-color: darkgreen;
-  border: solid;
-  border-color: rgba(144, 238, 144, , 0.5);
-  border-width: 2px;
-  color: rgba(0, 255, 0, 0.9);
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 4px;
-  /*font-size: 2em;*/
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  margin-top: 5px;
-  cursor: pointer;
+	/*background-color: rgba(0, 255, 0, 0.5);*/
+	background-color: darkgreen;
+	border: solid;
+	border-color: rgba(144, 238, 144, , 0.5);
+	border-width: 2px;
+	color: rgba(0, 255, 0, 0.9);
+	text-align: center;
+	text-decoration: none;
+	/*font-style: italic;*/
+	display: inline-block;
+	border-radius: 4px;
+	/*font-size: 2em;*/
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	/*margin-top: 5px;*/
+	cursor: pointer;
 }
 
 a, a:hover, a:visited, a:active {
