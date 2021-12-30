@@ -194,7 +194,6 @@ function kickoffMain() {
   line = new cjs.Shape()
   stage.addChild(line)
 
-
   makeDialUnits(objkts)
   // dialHand = new lib.DialHand()
   dialHand = new cjs.Shape()
@@ -212,9 +211,9 @@ function kickoffMain() {
   container.addChild(lemonPrincessType)
   posLemonPrincessType()
 
-  document.addEventListener("touchstart", e => { handleDialStart(e.touches[0])})
-  document.addEventListener("mousedown", handleDialStart)
-  document.addEventListener("click", handleNext)
+  canvas.addEventListener("touchstart", e => { handleDialStart(e.touches[0])})
+  canvas.addEventListener("mousedown", handleDialStart)
+  canvas.addEventListener("click", handleNext)
 
   loadIteration(1)
   startPrincess(1)
@@ -238,17 +237,16 @@ function kickoffMain() {
     granAngleCurrent = getGranularAngle(angle, numUnits)
     granAngleOffset = granAngleCurrent - dialRotation
 
-
     // visDialInteraction(p)
-    document.addEventListener("touchmove", handleDialMove)
-    document.addEventListener("touchend", handleDialEnd)
-    document.addEventListener("mousemove", handleDialMove)
-    document.addEventListener("mouseup", handleDialEnd)
+    canvas.addEventListener("touchmove", handleDialMove)
+    canvas.addEventListener("touchend", handleDialEnd)
+    canvas.addEventListener("mousemove", handleDialMove)
+    canvas.addEventListener("mouseup", handleDialEnd)
     destroyCurrentPrincess()
   }
 
   function handleDialMove(e) {
-    document.removeEventListener("click", handleNext)
+    canvas.removeEventListener("click", handleNext)
     let p = e.touches ? 
       new cjs.Point(e.touches[0].clientX, e.touches[0].clientY) : 
       new cjs.Point(e.clientX, e.clientY)
@@ -264,7 +262,6 @@ function kickoffMain() {
       iteration = iteration < 1 ? numUnits + iteration : iteration 
       loadIteration(iteration)
       dialHand.rotation = dialRotation
-      
       
       // clearTimeout(dialInterval)
       // dialInterval = setTimeout(e => {
@@ -284,14 +281,14 @@ function kickoffMain() {
     cjs.Tween.get(dialFace, {override:true})
       // .wait(500)
       .to({alpha: 0}, tweenDuration, tweenEaseOut)
-    document.removeEventListener("touchmove", handleDialMove)
-    document.removeEventListener("touchend", handleDialEnd)
-    document.removeEventListener("mousemove", handleDialMove)
-    document.removeEventListener("mouseup", handleDialEnd)
+    canvas.removeEventListener("touchmove", handleDialMove)
+    canvas.removeEventListener("touchend", handleDialEnd)
+    canvas.removeEventListener("mousemove", handleDialMove)
+    canvas.removeEventListener("mouseup", handleDialEnd)
     startPrincess(iteration)
-    // document.addEventListener("click", handleNext)
+    // canvas.addEventListener("click", handleNext)
     _.delay(e => {
-      document.addEventListener("click", handleNext)
+      canvas.addEventListener("click", handleNext)
     }, 10)
   }
 
@@ -351,20 +348,96 @@ function loadIteration(iter) {
 
   loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
 
+  updateReadout()
 
-  // let currentLightOrDark = lightOrDark(currentBGColor)
-  // if (currentLightOrDark == "dark" && !darkMode || currentLightOrDark == "light" && darkMode) {
-  //   setDarkMode(!darkMode)
-  // }
+}
 
-  // console.log('lightOrDark', lightOrDark(currentBGColor))
+function getUser(objkt) {
+  if (objkt.offer) {
+    return objkt.offer.issuer
+  } else {
+    return objkt.owner
+  }
+}
+
+function getUserName(user) {
+  if (user.name) {
+    return user.name
+  } else {
+    return "Anon " + user.id.substring(0,8) + "..."
+  }
+}
+
+function getUserLink(user) {
+  return "https://tzkt.io/" + user.id
+}
+
+function updateReadout() {
+
+  let data = _.find(objkts, {iteration: iteration})
+  // is it "overlay" or "readout"? cummon...
+  let overlay = document.getElementById('overlay')
+  overlay.innerHTML = ""
+
+  // hash
+  let hashReadout = document.createElement("p")
+  hashReadout.classList.add("hash")
+  hashReadout.innerHTML = fxhash
+  // overlay.appendChild(hashReadout)
+
+  // iteration number
   let displayNum = iteration.toString()
   displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
   displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
-  // console.log("displayNum: ", displayNum.length)
-  document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
-  // document.getElementById('overlayhash').innerHTML = '<p>' + fxhash + '</p>'
-  // startPrincess(iteration)
+  let iterReadout = document.createElement("p")
+  iterReadout.classList.add("num")
+  iterReadout.innerHTML = displayNum + '/' + numUnits
+  overlay.appendChild(iterReadout)
+
+  let user = getUser(data)
+  let name = getUserName(user)
+  let link = getUserLink(user)
+
+  // owner
+  let ownerLink = document.createElement("a")
+  ownerLink.innerHTML = "👛 " + name
+  ownerLink.href = link
+  ownerLink.target = "_blank"
+  ownerLink.classList.add("owner")
+  overlay.appendChild(ownerLink)
+
+
+  if (data.offer) {
+    // owner
+    let offerLink = document.createElement("a")
+    let offerLinkButton = document.createElement("button")
+    offerLink.innerHTML = "💸 "
+    offerLinkButton.innerHTML = String(data.offer.price / 1000000) + " tz"
+    offerLink.appendChild(offerLinkButton)
+    offerLink.href = "https://www.fxhash.xyz/objkt/slug/" + data.slug
+    offerLink.target = "_blank"
+    offerLink.classList.add("owner")
+    offerLinkButton.classList.add("collect")
+    overlay.appendChild(offerLink)
+  }
+
+
+  // // console.log("data.owner: ", data)
+  // if (data.owner.name) {
+  //   owner = data.owner.name
+  //   // document.getElementById("ownerlink").innerHTML = "Owner - " + data.owner.name
+  //   // document.getElementById("owner").innerHTML = "Sack " + _.sample(dumbOwnerNouns) + ":</br>" + data.owner.name
+  // } else {
+  //   owner = data.owner.id.substring(0,8) + "..."
+  //   document.getElementById("ownerlink").innerHTML = "Owner - Anon " + data.owner.id.substring(0,8) + "..."
+  //   // document.getElementById("owner").innerHTML = "Sack " + _.sample(dumbOwnerNouns) + ":</br>" + data.owner.id
+  // }
+
+  // document.getElementById("ownerlink").href = "https://tzkt.io/" + data.owner.id
+
+  // hash 
+  // // console.log("displayNum: ", displayNum.length)
+  // document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
 }
 
 function getAngle(p1, p2) {
@@ -418,8 +491,6 @@ function stepLoader(steps) {
   loader.gotoAndStop(nextFrame)
 }
 
-
-
 let oldResize = window.onresize
 window.onresize = e => {
   // console.log("new resize")
@@ -427,7 +498,6 @@ window.onresize = e => {
   posPT()
   posLemonPrincessType()
 }
-
 
 function lightOrDark(color) {
 
@@ -522,8 +592,6 @@ function simpleRecolor(item, color) {
   if (!paused) item.play()
 }
 
-
-
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
@@ -610,12 +678,12 @@ function startPrincess(iteration) {
   //   setDarkMode(!darkMode)
   // }
 
-  // rendering hash & edition #s
-  let displayNum = iteration.toString()
-  displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
-  displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
-  // console.log("displayNum: ", displayNum.length)
-  document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
+  // // rendering hash & edition #s
+  // let displayNum = iteration.toString()
+  // displayNum = displayNum.length == 1 ? "00" + displayNum : displayNum
+  // displayNum = displayNum.length == 2 ? "0" + displayNum : displayNum
+  // // console.log("displayNum: ", displayNum.length)
+  // document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
 
   spawnNewPrincess()
 
