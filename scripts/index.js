@@ -477,9 +477,9 @@ function makeDialUnits(objkts) {
     dialUnit.graphics.lineTo(0, -20)
     dialUnit.graphics.endStroke()
     if (objktData.offer) {
-      dialUnit.graphics.setStrokeStyle(8, "round").beginStroke("#00ff00")
+      dialUnit.graphics.setStrokeStyle(8, "round").beginStroke("rgba(0,255,0,0.5)")
       dialUnit.graphics.moveTo(0, 10)
-      dialUnit.graphics.lineTo(0, 10)
+      dialUnit.graphics.lineTo(0, 11)
       dialUnit.graphics.endStroke()
     }
 
