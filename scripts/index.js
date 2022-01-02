@@ -337,7 +337,7 @@ function tick(e) {
   if (capturing) {
     capturer.capture(canvas);
     captureIndex++
-    if (captureIndex == 95) {
+    if (captureIndex == 93) {
       capturer.stop();
       capturer.save(blob => {
         // title.visible = true
@@ -727,7 +727,8 @@ let rate = 1
 let primaryAssetData = [
   {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
   {name: "Pulsor1", playhead: "pingpong", fill: true, stroke:true},
-  {name: "BugmaAnchor", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Bugma1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "BugmaAnchor", playhead: "loop", fill: true, stroke:true},
   {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
   {name: "Looper0", playhead: "loop", fill: true, stroke:true},
   {name: "Constellation0", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
@@ -737,6 +738,7 @@ let primaryAssetData = [
   {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
   {name: "Thrumpus", playhead: "loop", fill: true, stroke:true},
+  {name: "Octoid", playhead: "pingpong", fill: true, stroke:true},
 ]
 
 let secondaryAssetData = [
@@ -905,7 +907,7 @@ function makePulsor(index) {
 
     recolor(nestedItem, nestedItemData, nestedColor, 2)
     nestedItem.gotoAndStop(Math.floor(fxrand() * nestedItem.totalFrames)) // synchrony
-    if (itemData.playhead == "pingpong") {
+    if (nestedItemData.playhead == "pingpong") {
       nestedItem.addEventListener('tick', e => {
         if (nestedItemForward) {
           nestedItem.gotoAndStop(nestedItem.currentFrame + rate)
