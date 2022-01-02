@@ -25,7 +25,7 @@ let objkts
 let hammer
 let crosshairs
 let dialHand
-let dialFace
+let dialFace = new cjs.Container()
 let dialUnits
 let currentRot = 0
 let lastRot = 0
@@ -187,11 +187,13 @@ function kickoffMain() {
   posPT()
 
   window.addEventListener("keydown", e => {
-    // console.log("KEY: ", e)
+    console.log("KEY: ", e)
     if (e.key == "ArrowLeft") {
       handlePrev()
     } else if (e.key == "ArrowRight") {
       handleNext()
+    } else if (e.key == "s") {
+      sortByPrice()
     }
   })
 
@@ -261,22 +263,11 @@ function kickoffMain() {
       // click.play(0,0)
       // dialRotation += granAngleDelta
       dialRotation = granAngleCurrent - granAngleOffset
-      let rawIteration = Math.round((dialRotation % 360)/increment) + 1
-      iteration = rawIteration < 1 ? numUnits + rawIteration : rawIteration 
-      iteration = iteration > 300 ? 300 : iteration
-      iteration = iteration < 1 ? numUnits + iteration : iteration 
-      loadIteration(iteration)
+      let rawDegree = Math.round((dialRotation % 360)/increment)
+      let degree = rawDegree
+      degree = rawDegree < 0 ? numUnits + rawDegree : rawDegree 
+      loadIteration(objkts[degree].iteration)
       dialHand.rotation = dialRotation
-      
-      // clearTimeout(dialInterval)
-      // dialInterval = setTimeout(e => {
-      //   startPrincess(iteration)
-      // }, 200)
-
-      // let toStep = granAngleDelta < 0 ? -1 : 1
-      // stepLoader(toStep)
-      // loader.gotoAndStop(_.random(loader.totalFrames))
-      // cjs.Tween.get(dialHand, {override:true}).to({rotation: dialRotation}, 100, cjs.Ease.quadOut)
     }
     granAnglePrev = granAngleCurrent
     // visDialInteraction(p)
@@ -386,6 +377,19 @@ function loadIteration(iter) {
 
   updateReadout()
 
+}
+
+function sortByPrice() {
+  objkts = _.orderBy(objkts, [objkt => {
+    let rank = 0
+    if (objkt.offer) {
+      rank = objkt.offer.price
+    }
+    return rank
+  }],['desc'])
+
+  destroyDialUnits()
+  makeDialUnits(objkts)
 }
 
 function getUser(objkt) {
@@ -547,7 +551,6 @@ function makeDialUnits(objkts) {
 
   let numUnits = objkts.length
 
-  dialFace = new cjs.Container()
   dialUnits = _.times(numUnits, makeDialUnit)
   container.addChild(dialFace)
 
@@ -579,6 +582,12 @@ function makeDialUnits(objkts) {
     dialFace.addChild(dialUnit)
     return dialUnit
   }
+}
+
+function destroyDialUnits() {
+  _.map(dialUnits, dialUnit => {
+    dialFace.removeChild(dialUnit)
+  })
 }
 
 function stepLoader(steps) {
