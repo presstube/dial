@@ -19,6 +19,8 @@ let capturer
 let captureIndex = 0
 let capturing = false
 
+let currentSorter = 'iteration'
+
 let loader
 let lemonPrincessType
 let objkts
@@ -134,14 +136,13 @@ function loadData() {
     .then(json => {
       objkts = json.data.generativeToken.entireCollection
       objkts = _.sortBy(objkts, 'iteration')
-      objkts = _.map(objkts, objkt => {
-        objkt.generationHash = bootFXHash()
-        return objkt
-      })
-      // console.log("KAKAK", json.data.generativeToken.entireCollection)
-      // _.delay(kickoffMain, 1000)
+
+      // objkts = _.map(objkts, objkt => {
+      //   objkt.generationHash = bootFXHash()
+      //   return objkt
+      // })
+
       kickoffMain()
-      // kickoff()
     })
 }
 
@@ -184,6 +185,12 @@ function posLemonPrincessType() {
 
 function kickoffMain() {
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const iter = urlParams.get('id')
+  const sorter = urlParams.get('sortby')
+
+  currentSorter = sorter ? sorter : 'iteration'
+
   posPT()
 
   window.addEventListener("keydown", e => {
@@ -192,15 +199,22 @@ function kickoffMain() {
       handlePrev()
     } else if (e.key == "ArrowRight") {
       handleNext()
-    } else if (e.key == "s") {
+    } else if (e.key == "p") {
       sortByPrice()
+    } else if (e.key == "i") {
+      sortByIteration()
     }
   })
 
   line = new cjs.Shape()
   stage.addChild(line)
 
-  makeDialUnits(objkts)
+  if (currentSorter == 'iteration') {
+    sortByIteration()
+  } else if (currentSorter == 'price') {
+    sortByPrice()
+  }
+  // makeDialUnits(objkts)
   // dialHand = new lib.DialHand()
   dialHand = new cjs.Shape()
   dialHand.graphics.setStrokeStyle(1).beginStroke("rgba(255,255,255,1)")
@@ -221,8 +235,13 @@ function kickoffMain() {
   canvas.addEventListener("mousedown", handleDialStart)
   canvas.addEventListener("click", handleNext)
 
-  loadIteration(1)
-  startPrincess(1)
+  if (iter) {
+    loadIteration(Number(iter))
+    startPrincess(Number(iter))
+  } else {
+    loadIteration(1)
+    startPrincess(1)
+  }
 
   function handleDialStart(e) {
     // click.play(0,0)
@@ -301,6 +320,7 @@ function kickoffMain() {
     workersPath: 'libs/',
     framerate: 30,
   })
+
 }
 
 function handlePrev() {
@@ -380,6 +400,7 @@ function loadIteration(iter) {
 }
 
 function sortByPrice() {
+  currentSorter = 'price'
   objkts = _.orderBy(objkts, [objkt => {
     let rank = 0
     if (objkt.offer) {
@@ -388,6 +409,16 @@ function sortByPrice() {
     return rank
   }],['desc'])
 
+  updateParams()
+  destroyDialUnits()
+  makeDialUnits(objkts)
+}
+
+function sortByIteration() {
+  currentSorter = 'iteration'
+  objkts = _.orderBy(objkts, ['iteration'],['asc'])
+
+  updateParams()
   destroyDialUnits()
   makeDialUnits(objkts)
 }
@@ -760,12 +791,21 @@ let secondaryAssetData = [
   {name: "Sakkaya17", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
+function updateParams() {
+  const params = new URLSearchParams(location.search);
+  params.set('id', iteration);
+  if (currentSorter) params.set('sortby', currentSorter)
+  params.toString(); // => test=123&cheese=yummy
+  window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
+}
+
 function startPrincess(iteration) {
   // console.log('starting princess:', iteration)
   
   // destroyCurrentPrincess()
 
-  
+  updateParams()
+
   // booting fxhash
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
