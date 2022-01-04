@@ -827,6 +827,14 @@ function startPrincess(iteration) {
   
   // destroyCurrentPrincess()
 
+  // guts out dial readjusting
+  let rotty = _.findIndex(objkts, objkt => {
+    return objkt.iteration == iteration
+  })
+  let incr = 360 / 300
+  dialHand.rotation = rotty * incr
+  dialRotation = rotty * incr
+
   updateParams()
 
   // booting fxhash
