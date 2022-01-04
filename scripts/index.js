@@ -5,6 +5,14 @@
 function fxSample(arr) {
   return arr[Math.floor(fxrand()*arr.length)]
 }
+
+function fxSampleRarity(arr, rarityTarget) {
+  return arr[Math.floor(fxrand() * (arr.length * rarityTarget))]
+}
+
+function fxSampleRarityID(arr, rarityTarget) {
+  return Math.floor(fxrand() * (arr.length * rarityTarget))
+}
 ///////////////////////////
 ///////////////////////////
 
@@ -20,6 +28,8 @@ let captureIndex = 0
 let capturing = false
 
 let currentSorter = 'iteration'
+
+let rarityTarget
 
 let loader
 let lemonPrincessType
@@ -55,38 +65,43 @@ let units = _.times(numUnits, index => {
 
 let colorschemes = [
 
-  ["590d22","800f2f","a4133c","c9184a","ff4d6d","ff758f","d2fd35","ffccd5","fff0f3"],
-  ["d8f3dc","b7e4c7","ff0a50","74c69d","52b788","40916c","2d6a4f","1b4332","081c15"],
-  ["007f5f","2b9348","55a630","80b918","aacc00","bfd200","eb4833","eeef20","ffff3f"],
-  ["0d1f2d","546a7b","9ea3b0","fae1df","e4c3ad","6d2e46","ffe74c","ff5964","f9db6d"],
-  ["bbe1c3","a7cdbd","869d7a","91785d","8b5d33","433e0e","e0b0d5","ffa552","ba5624"],
-  ["9a8f97","c3baba","e9e3e6","b2b2b2","736f72","a30b37","40bcd8","355070","49beaa"],
-  ["985f99","9684a1","aaacb0","b6c9bb","bfedc1","2d0320","0d160b","5c1a1b","5c573e"],
-  ["ffd9da","ea638c","89023e","30343f","1b2021","93b7be","798071","623cea","16302b"],
-  ["247ba0","70c1b3","b2dbbf","f3ffbd","ff1654","30362f","625834","da7422","8b2635"],
-  ["0e0004","31081f","6b0f1a","b91372","fa198b","b7ad99","ff4365","00d9c0","fffff3"],
-  ["7cfef0","6bffb8","2ceaa3","28965a","2a6041","090909","4b5043","a40e4c","2c2c54"],
-  ["104f55","32746d","9ec5ab","01200f","011502","885053","fe5f55","23022e","ffa69e"],
-  ["78c0e0","449dd1","192bc2","150578","0e0e52","6eeb83","e4ff1a","ffb800","ff5714"],
-  ["2d2a32","ddd92a","eae151","eeefa8","fafdf6","cc2936","6b818c","eee5e9","c7e8f3"],
-  ["4d5057","4e6e5d","4da167","3bc14a","cfcfcf","ed1c24","fdfffc","f1d302","f2e2d2"],
 
-  ["331832","d81e5b","f0544f","c6d8d3","fdf0d5"],
-  ["1b2f33","28502e","47682c","8c7051","ef3054"],
-  ["ea526f","070600","f7f7ff","23b5d3","279af1"],
-  ["07020d","5db7de","f1e9db","a39b8b","716a5c"],
-  ["5c415d","694966","74526c","dbd053","c89933"],
-  ["c4bbaf","a5978b","5c4742","8d5b4c","5a2a27"],
-  ["fbc2b5","ffa8a9","f786aa","a14a76","cdb2ab"],
-  ["d8e2dc","ffffff","ffcad4","f4acb7","9d8189"],
+  ["0e0004","31081f","6b0f1a","b91372","fa198b","b7ad99","ff4365","00d9c0","fffff3"], // chiascurro chroma squelch
+  ["590d22","800f2f","a4133c","c9184a","ff4d6d","ff758f","d2fd35","ffccd5","fff0f3"], // raspberry sorbet
+  ["d8f3dc","b7e4c7","ff0a50","74c69d","52b788","40916c","2d6a4f","1b4332","081c15"], // mint strawberry
+  ["ffd9da","ea638c","89023e","30343f","1b2021","93b7be","798071","623cea","16302b"], // vibrant gay decepticon
+  ["9a8f97","c3baba","e9e3e6","b2b2b2","736f72","a30b37","40bcd8","355070","49beaa"], // minty mud puddle
+  ["2d2a32","ddd92a","eae151","eeefa8","fafdf6","cc2936","6b818c","eee5e9","c7e8f3"], // lemonyacht
+  ["7cfef0","6bffb8","2ceaa3","28965a","2a6041","090909","4b5043","a40e4c","2c2c54"], // purple fusia minty
+  ["bbe1c3","a7cdbd","869d7a","91785d","8b5d33","433e0e","e0b0d5","ffa552","ba5624"], // cordoroy ashtray
+  ["4d5057","4e6e5d","4da167","3bc14a","cfcfcf","ed1c24","fdfffc","f1d302","f2e2d2"], // primarygreyloge
+  ["985f99","9684a1","aaacb0","b6c9bb","bfedc1","2d0320","0d160b","5c1a1b","5c573e"], // desaturated pony
+  ["104f55","32746d","9ec5ab","01200f","011502","885053","fe5f55","23022e","ffa69e"], // pastel fragrant domicile
+  ["78c0e0","449dd1","192bc2","150578","0e0e52","6eeb83","e4ff1a","ffb800","ff5714"], // horrendous pop
+  ["0d1f2d","546a7b","9ea3b0","fae1df","e4c3ad","6d2e46","ffe74c","ff5964","f9db6d"], // pastel fruit balance
+  ["007f5f","2b9348","55a630","80b918","aacc00","bfd200","eb4833","eeef20","ffff3f"], // slighty rotting apple
+  ["247ba0","70c1b3","b2dbbf","f3ffbd","ff1654","30362f","625834","da7422","8b2635"], // vibrant puce plop
 
-  // ["f45b69","f6e8ea","22181c","5a0001","f13030"],
-  // ["1d1e18","6b8f71","aad2ba","d9fff5","b9f5d8"],
-  // ["000000","ffffff","494949","7c7a7a","ff5d73"],
-  // ["25ced1","ffffff","fceade","ff8a5b","ea526f"],
-  // ["527a2c","ebb2ce","e6177b","6b4a5a","ffc7e2"],
-  // ["87946a","261e38","d631a2","c9bce6","381a7a"],
-  // ["98eb59","801912","cf1d11","ed5d53","c2534c"]
+  // // harmonious? 
+  ["331832","d81e5b","f0544f","c6d8d3","fdf0d5"], // sky pony harmony
+  ["1b2f33","28502e","47682c","8c7051","ef3054"], // forest strawberry pop
+  ["d8e2dc","ffffff","ffcad4","f4acb7","9d8189"], // overcast barbie maxi flesh
+  ["5c415d","694966","74526c","dbd053","c89933"], // gentle lemon aubergine
+  ["fbc2b5","ffa8a9","f786aa","a14a76","cdb2ab"], // barbie's maxi flesh
+  ["ea526f","070600","f7f7ff","23b5d3","279af1"], // dashing primary robot
+  ["c4bbaf","a5978b","5c4742","8d5b4c","5a2a27"], // desert chocolate
+  ["07020d","5db7de","f1e9db","a39b8b","716a5c"], // harsh beige bot
+
+  // // also harmonious?
+  ["98eb59","801912","cf1d11","ed5d53","c2534c"], // acid lime bloodbath
+  ["1d1e18","6b8f71","aad2ba","d9fff5","b9f5d8"], // pale green dark contrast
+  ["f45b69","f6e8ea","22181c","5a0001","f13030"], // midnight rouge tron
+  ["527a2c","ebb2ce","e6177b","6b4a5a","ffc7e2"], // lovely watermelon
+  ["000000","ffffff","494949","7c7a7a","ff5d73"], // grey pink monochrome
+  ["25ced1","ffffff","fceade","ff8a5b","ea526f"], // blue orange pink pastelly
+  ["87946a","261e38","d631a2","c9bce6","381a7a"], // fairly extreme pink purple grey
+
+
 ]
 
 
@@ -137,10 +152,10 @@ function loadData() {
       objkts = json.data.generativeToken.entireCollection
       objkts = _.sortBy(objkts, 'iteration')
 
-      // objkts = _.map(objkts, objkt => {
-      //   objkt.generationHash = bootFXHash()
-      //   return objkt
-      // })
+      objkts = _.map(objkts, objkt => {
+        objkt.generationHash = bootFXHash()
+        return objkt
+      })
 
       kickoffMain()
     })
@@ -388,7 +403,10 @@ function loadIteration(iter) {
     return objkt.iteration == iteration;
   }), 'generationHash');
   bootFXHash(fxhash)
-  currentColorScheme = fxSample(colorschemes)
+  rarityTarget = fxrand()
+  // rarityTarget = 1
+  currentColorScheme = fxSampleRarity(colorschemes, rarityTarget)
+  // currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
   recolorUI("#" + currentBGColor)
@@ -590,8 +608,12 @@ function makeDialUnits(objkts) {
     let degrees = (360 / numUnits) * (index)
     let point = PTUtils.polarDegrees(faceRadius, degrees)
 
+    // seems dangerous to have this in here if I'm sorting...
     bootFXHash(objktData.generationHash)
-    currentColorScheme = fxSample(colorschemes)
+    rarityTarget = fxrand()
+    // rarityTarget = 1
+    currentColorScheme = fxSampleRarity(colorschemes, rarityTarget)
+    // currentColorScheme = fxSample(colorschemes)
     currentBGColor = fxSample(currentColorScheme)
 
     // let dialUnit = new lib.DialUnit()
@@ -738,8 +760,9 @@ let items
 let secItems
 let princessItems = []
 let maxItems = 5
-let minItems = 5
-let numItems
+let minItems = 3
+let numItemsPrimary
+let numItemsSecondary
 let color
 let nestedColor
 let assetID
@@ -757,38 +780,38 @@ let rate = 1
 
 let primaryAssetData = [
   {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Pulsor1", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Bugma1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "BugmaAnchor", playhead: "loop", fill: true, stroke:true},
-  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Looper0", playhead: "loop", fill: true, stroke:true},
-  {name: "Constellation0", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {name: "Looper2", playhead: "loop", fill: true, stroke:false},
-  {name: "Looper3", playhead: "loop", fill: true, stroke:false},
-  {name: "Hairy0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
   {name: "Thrumpus", playhead: "loop", fill: true, stroke:true},
   {name: "Octoid", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "Looper2", playhead: "loop", fill: true, stroke:false},
+  {name: "Constellation0", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "Looper3", playhead: "loop", fill: true, stroke:false},
+  {name: "Hairy0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "BugmaAnchor", playhead: "loop", fill: true, stroke:true},
+  {name: "Bugma1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Pulsor1", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Looper0", playhead: "loop", fill: true, stroke:true},
 ]
 
 let secondaryAssetData = [
-  {name: "Sakkaya0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya17", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
 function updateParams() {
@@ -812,14 +835,24 @@ function startPrincess(iteration) {
   }), 'generationHash');
   bootFXHash(fxhash)
   // setting up color scheme, choosing bg color, painting bg
-  currentColorScheme = fxSample(colorschemes)
+  rarityTarget = fxrand()
+  // rarityTarget = 1
+  console.log("rarityTarget: ", rarityTarget)
+  currentColorScheme = fxSampleRarity(colorschemes, rarityTarget)
+  // currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
 
   // setting initial values - comes after color so that color can be first thing easily for interface
-  numItems = Math.floor(fxrand() * maxItems) + minItems
-  assetID = Math.floor(fxrand() * primaryAssetData.length)
-  secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
+  numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
+  numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
+
+  // assetID = Math.floor(fxrand() * primaryAssetData.length)
+  // secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
+
+  assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
+  secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
+
 
   // // painting UI as dark or light mode
   // let currentLightOrDark = lightOrDark(currentBGColor)
@@ -863,14 +896,15 @@ function destroyPrincessItem(item) {
 function spawnNewPrincess() {
   color = "#" + fxSample(currentColorScheme)
   nestedColor = "#" + fxSample(currentColorScheme)
-  items = _.times(numItems, makePulsor)
-  secItems = _.times(numItems, makeSegundo)
+  items = _.times(numItemsPrimary, makePulsor)
+  secItems = _.times(numItemsSecondary, makeSegundo)
 }
 
 function makePulsor(index) {
 
   if (fxrand() < 0.4) { // deciding whether to switch asset or not
-    assetID = Math.floor(fxrand() * primaryAssetData.length)
+    // assetID = Math.floor(fxrand() * primaryAssetData.length)
+    assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
   }
 
   let itemData = primaryAssetData[assetID]
@@ -938,7 +972,8 @@ function makePulsor(index) {
   } 
 
   function makeNested() {
-    let nestedItemData = fxSample(primaryAssetData)
+    // let nestedItemData = fxSample(primaryAssetData)
+    let nestedItemData = fxSampleRarity(primaryAssetData, rarityTarget)
     // console.log("asdasdsa:", nestedItemData)
     // let nestedItemData = secondaryAssetData[2]
     let nestedItem = new lib[nestedItemData.name]()
@@ -974,7 +1009,8 @@ function makePulsor(index) {
 
 function makeSegundo(index) {
   if (fxrand() < 0.4) {
-    secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
+    // secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
+    secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   }
   let itemData = secondaryAssetData[secAssetID]
   let item = new libPile[itemData.name]()
