@@ -182,11 +182,15 @@ function colorBG(color) {
 
 
 function posPT() {
-  let margin = 60
-  loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
-  loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
+  // let margin = 60
+  // loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
+  // loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
+  // loader.scaleX = loader.scaleY = 0.5 / scaler
+
+  loader.x = ((stage.width / 2) / scaler) - (60/scaler)
+  loader.y = ((stage.height / 2) / scaler) - (60/scaler)
   loader.scaleX = loader.scaleY = 0.5 / scaler
-  loader.gotoAndStop(0)
+  // loader.gotoAndStop(0)
 }
 
 function posLemonPrincessType() {
@@ -246,7 +250,7 @@ function kickoffMain() {
   canvas.addEventListener("click", handleNext)
 
   if (iter) {
-    iteration = iter
+    iteration = Number(iter)
   } else {
     iteration = 1
   }
@@ -374,7 +378,7 @@ function tick(e) {
   if (capturing) {
     capturer.capture(canvas);
     captureIndex++
-    if (captureIndex == 93) {
+    if (captureIndex == 96) {
       capturer.stop();
       capturer.save(blob => {
         // title.visible = true
@@ -405,8 +409,8 @@ function loadIteration(iter) {
     return objkt.iteration == iteration;
   }), 'generationHash');
   bootFXHash(fxhash)
-  rarityTarget = fxrand()
-  // rarityTarget = 1
+  // rarityTarget = fxrand()
+  rarityTarget = 1
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget)
   // currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
@@ -614,8 +618,8 @@ function makeDialUnits(objkts) {
 
     // seems dangerous to have this in here if I'm sorting...
     bootFXHash(objktData.generationHash)
-    rarityTarget = fxrand()
-    // rarityTarget = 1
+    // rarityTarget = fxrand()
+    rarityTarget = 1
     currentColorScheme = fxSampleRarity(colorschemes, rarityTarget)
     // currentColorScheme = fxSample(colorschemes)
     currentBGColor = fxSample(currentColorScheme)
@@ -779,7 +783,7 @@ let tweenWaitMax = 500
 let tweenDuration = 300
 let tweenEaseIn = cjs.Ease.quintInOut
 let tweenEaseOut = cjs.Ease.quintInOut
-// let rotationRateMax = 0.5
+let rotationRateMax = 0.5
 let rate = 1
 
 let primaryAssetData = [
@@ -851,8 +855,8 @@ function startPrincess(iteration) {
   }), 'generationHash');
   bootFXHash(fxhash)
   // setting up color scheme, choosing bg color, painting bg
-  rarityTarget = fxrand()
-  // rarityTarget = 1
+  // rarityTarget = fxrand()
+  rarityTarget = 1
   console.log("rarityTarget: ", rarityTarget)
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget)
   // currentColorScheme = fxSample(colorschemes)
