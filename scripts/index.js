@@ -224,11 +224,6 @@ function kickoffMain() {
   line = new cjs.Shape()
   stage.addChild(line)
 
-  if (currentSorter == 'iteration') {
-    sortByIteration()
-  } else if (currentSorter == 'price') {
-    sortByPrice()
-  }
   // makeDialUnits(objkts)
   // dialHand = new lib.DialHand()
   dialHand = new cjs.Shape()
@@ -251,12 +246,19 @@ function kickoffMain() {
   canvas.addEventListener("click", handleNext)
 
   if (iter) {
-    loadIteration(Number(iter))
-    startPrincess(Number(iter))
+    iteration = iter
   } else {
-    loadIteration(1)
-    startPrincess(1)
+    iteration = 1
   }
+
+  if (currentSorter == 'iteration') {
+    sortByIteration()
+  } else if (currentSorter == 'price') {
+    sortByPrice()
+  }
+
+  loadIteration(iteration)
+  startPrincess(iteration)
 
   function handleDialStart(e) {
     // click.play(0,0)
@@ -430,6 +432,7 @@ function sortByPrice() {
   updateParams()
   destroyDialUnits()
   makeDialUnits(objkts)
+  dialReadjust(iteration)
 }
 
 function sortByIteration() {
@@ -439,6 +442,7 @@ function sortByIteration() {
   updateParams()
   destroyDialUnits()
   makeDialUnits(objkts)
+  dialReadjust(iteration)
 }
 
 function getUser(objkt) {
@@ -822,11 +826,7 @@ function updateParams() {
   window.history.replaceState({}, '', `${location.pathname}?${params.toString()}`);
 }
 
-function startPrincess(iteration) {
-  // console.log('starting princess:', iteration)
-  
-  // destroyCurrentPrincess()
-
+function dialReadjust(iteration) {
   // guts out dial readjusting
   let rotty = _.findIndex(objkts, objkt => {
     return objkt.iteration == iteration
@@ -834,6 +834,14 @@ function startPrincess(iteration) {
   let incr = 360 / 300
   dialHand.rotation = rotty * incr
   dialRotation = rotty * incr
+}
+
+function startPrincess(iteration) {
+  // console.log('starting princess:', iteration)
+  
+  // destroyCurrentPrincess()
+
+  dialReadjust(iteration)
 
   updateParams()
 
