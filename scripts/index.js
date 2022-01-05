@@ -138,7 +138,10 @@ function loadLibPile() {
     console.log("completed loading lib pile")
     let comp = AdobeAn.getComposition("9DDB8738695F40A58CB0CE0618646207")
     libPile = comp.getLibrary()
-    loadData()
+
+    kickoffSingle()
+    // loadData()
+
   }, false)
 }
 
@@ -154,7 +157,7 @@ function loadData() {
         return objkt
       })
 
-      kickoffMain()
+      kickoffMany()
     })
 }
 
@@ -199,7 +202,11 @@ function posLemonPrincessType() {
 }
 
 
-function kickoffMain() {
+function kickoffSingle() {
+  startPrincessRaw()
+}
+
+function kickoffMany() {
 
   const urlParams = new URLSearchParams(window.location.search);
   const iter = urlParams.get('id')
@@ -835,6 +842,25 @@ function dialReadjust(iteration) {
   let incr = 360 / 300
   dialHand.rotation = rotty * incr
   dialRotation = rotty * incr
+}
+
+function startPrincessRaw() {
+  loader.visible = false
+
+  rarityTarget = 1
+  // rarityTarget = fxrand()
+  currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
+  currentBGColor = fxSample(currentColorScheme)
+  colorBG("#" + currentBGColor)
+
+  // setting initial values - comes after color so that color can be first thing easily for interface
+  numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
+  numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
+
+  assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
+  secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
+
+  spawnNewPrincess()
 }
 
 function startPrincess(iteration) {
