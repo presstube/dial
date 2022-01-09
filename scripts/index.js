@@ -824,6 +824,7 @@ let secondaryAssetData = [
   {name: "Sakkaya0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
 function updateParams() {
