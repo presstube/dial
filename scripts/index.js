@@ -101,6 +101,90 @@ let colorschemes = [
 ]
 
 
+let items
+let secItems
+let terItems
+let princessItems = []
+let maxItems = 5
+let minItems = 3
+let numItemsPrimary
+let numItemsSecondary
+let numItemsTertiary
+let color
+let nestedColor
+let terColor
+let assetID
+let secAssetID
+let terAssetID
+let xMoveRange = 150 
+let yMoveRange = 150
+let xMoveRangeSec = 300 
+let yMoveRangeSec = 300
+let xMoveRangeTer = 800 
+let yMoveRangeTer = 800
+let tweenWaitMax = 500
+let tweenDuration = 300
+let tweenEaseIn = cjs.Ease.quintInOut
+let tweenEaseOut = cjs.Ease.quintInOut
+let rotationRateMax = 0.5
+let rate = 1
+
+let primaryAssetData = [
+  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Thrumpus", playhead: "loop", fill: true, stroke:true},
+  {name: "Octoid", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "Looper2", playhead: "loop", fill: true, stroke:false},
+  {name: "Constellation0", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "Looper3", playhead: "loop", fill: true, stroke:false},
+  {name: "Hairy0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "BugmaAnchor", playhead: "loop", fill: true, stroke:true},
+  {name: "Bugma1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Pulsor1", playhead: "pingpong", fill: true, stroke:true},
+  {name: "Looper0", playhead: "loop", fill: true, stroke:true},
+]
+
+let secondaryAssetData = [
+  {name: "Sakkaya6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya17", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Sakkaya4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+]
+
+let tertiaryAssetData = [
+  {name: "Tertiary1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary9", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+]
+
+
 
 loadLoaderLib()
 
@@ -139,8 +223,8 @@ function loadLibPile() {
     let comp = AdobeAn.getComposition("9DDB8738695F40A58CB0CE0618646207")
     libPile = comp.getLibrary()
 
-    kickoffSingle()
-    // loadData()
+    // kickoffSingle()
+    loadData()
 
   }, false)
 }
@@ -156,6 +240,8 @@ function loadData() {
         objkt.generationHash = bootFXHash()
         return objkt
       })
+
+      objkts[0].generationHash = "ooDnGTsPiKnBgvDCeZkP16h6zwnSN1gyKtZgi3Lq6g22caDtep6"
 
       kickoffMany()
     })
@@ -408,11 +494,12 @@ function tick(e) {
 
 function loadIteration(iter) {
   iteration = iter
-  // console.log('iter: ', iteration)
+  console.log('iter: ', iteration)
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
   }), 'generationHash');
   bootFXHash(fxhash)
+  console.log('generationHash: ', fxhash)
   rarityTarget = fxrand()
   // rarityTarget = 1
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
@@ -768,88 +855,7 @@ function simpleRecolor(item, color) {
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
 
-let items
-let secItems
-let terItems
-let princessItems = []
-let maxItems = 5
-let minItems = 3
-let numItemsPrimary
-let numItemsSecondary
-let numItemsTertiary
-let color
-let nestedColor
-let terColor
-let assetID
-let secAssetID
-let terAssetID
-let xMoveRange = 150 
-let yMoveRange = 150
-let xMoveRangeSec = 300 
-let yMoveRangeSec = 300
-let xMoveRangeTer = 800 
-let yMoveRangeTer = 800
-let tweenWaitMax = 500
-let tweenDuration = 300
-let tweenEaseIn = cjs.Ease.quintInOut
-let tweenEaseOut = cjs.Ease.quintInOut
-let rotationRateMax = 0.5
-let rate = 1
 
-let primaryAssetData = [
-  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Thrumpus", playhead: "loop", fill: true, stroke:true},
-  {name: "Octoid", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {name: "Looper2", playhead: "loop", fill: true, stroke:false},
-  {name: "Constellation0", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {name: "Looper3", playhead: "loop", fill: true, stroke:false},
-  {name: "Hairy0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "BugmaAnchor", playhead: "loop", fill: true, stroke:true},
-  {name: "Bugma1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Pulsor1", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Looper0", playhead: "loop", fill: true, stroke:true},
-]
-
-let secondaryAssetData = [
-  {name: "Sakkaya6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya17", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-]
-
-let tertiaryAssetData = [
-  {name: "Tertiary1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary9", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-]
 
 function updateParams() {
   const params = new URLSearchParams(location.search);
@@ -874,15 +880,13 @@ function startPrincessRaw() {
 
   rarityTarget = 1
   // rarityTarget = fxrand()
+  console.log("HASH ", fxhash)
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
-
-  // setting initial values - comes after color so that color can be first thing easily for interface
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
-  numItemsTertiary = Math.floor(fxrand() * 20) + 20
-
+  // numItemsTertiary = Math.floor(fxrand() * 20) + 20
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
   secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   // terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
@@ -903,23 +907,15 @@ function startPrincess(iteration) {
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
   }), 'generationHash');
+
   bootFXHash(fxhash)
-  // setting up color scheme, choosing bg color, painting bg
-  rarityTarget = fxrand()
-  // rarityTarget = 1
+  rarityTarget = 1
   console.log("rarityTarget: ", rarityTarget)
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
-  // currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
-
-  // setting initial values - comes after color so that color can be first thing easily for interface
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
-
-  // assetID = Math.floor(fxrand() * primaryAssetData.length)
-  // secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
-
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
   secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
 
@@ -968,7 +964,7 @@ function destroyPrincessItem(item) {
 function spawnNewPrincess() {
   color = "#" + fxSample(currentColorScheme)
   nestedColor = "#" + fxSample(currentColorScheme)
-  terColor = "#" + fxSample(currentColorScheme)
+  // terColor = "#" + fxSample(currentColorScheme)
   items = _.times(numItemsPrimary, makePulsor)
   secItems = _.times(numItemsSecondary, makeSegundo)
   // terItems = _.times(numItemsTertiary, makeTertiary)
