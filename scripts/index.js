@@ -885,7 +885,7 @@ function startPrincessRaw() {
 
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
   secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
-  terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
+  // terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
 
   spawnNewPrincess()
 }
@@ -945,10 +945,10 @@ function destroyCurrentPrincess() {
   // console.log('destroying current princess')
   _.map(items, destroyPrincessItem)
   _.map(secItems, destroyPrincessItem)
-  _.map(terItems, destroyPrincessItem)
+  // _.map(terItems, destroyPrincessItem)
   items = []
   secItems = []
-  terItems = []
+  // terItems = []
 }
 
 function destroyPrincessItem(item) {
@@ -971,7 +971,7 @@ function spawnNewPrincess() {
   terColor = "#" + fxSample(currentColorScheme)
   items = _.times(numItemsPrimary, makePulsor)
   secItems = _.times(numItemsSecondary, makeSegundo)
-  terItems = _.times(numItemsTertiary, makeTertiary)
+  // terItems = _.times(numItemsTertiary, makeTertiary)
 }
 
 function makePulsor(index) {
