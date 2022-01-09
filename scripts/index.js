@@ -770,19 +770,25 @@ function simpleRecolor(item, color) {
 
 let items
 let secItems
+let terItems
 let princessItems = []
 let maxItems = 5
 let minItems = 3
 let numItemsPrimary
 let numItemsSecondary
+let numItemsTertiary
 let color
 let nestedColor
+let terColor
 let assetID
 let secAssetID
+let terAssetID
 let xMoveRange = 150 
 let yMoveRange = 150
 let xMoveRangeSec = 300 
 let yMoveRangeSec = 300
+let xMoveRangeTer = 800 
+let yMoveRangeTer = 800
 let tweenWaitMax = 500
 let tweenDuration = 300
 let tweenEaseIn = cjs.Ease.quintInOut
@@ -843,7 +849,6 @@ let tertiaryAssetData = [
   {name: "Tertiary13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Tertiary14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Tertiary15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Tertiary16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
 function updateParams() {
@@ -876,9 +881,11 @@ function startPrincessRaw() {
   // setting initial values - comes after color so that color can be first thing easily for interface
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
+  numItemsTertiary = Math.floor(fxrand() * 20) + 20
 
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
   secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
+  terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
 
   spawnNewPrincess()
 }
@@ -938,8 +945,10 @@ function destroyCurrentPrincess() {
   // console.log('destroying current princess')
   _.map(items, destroyPrincessItem)
   _.map(secItems, destroyPrincessItem)
+  _.map(terItems, destroyPrincessItem)
   items = []
   secItems = []
+  terItems = []
 }
 
 function destroyPrincessItem(item) {
@@ -959,8 +968,10 @@ function destroyPrincessItem(item) {
 function spawnNewPrincess() {
   color = "#" + fxSample(currentColorScheme)
   nestedColor = "#" + fxSample(currentColorScheme)
+  terColor = "#" + fxSample(currentColorScheme)
   items = _.times(numItemsPrimary, makePulsor)
   secItems = _.times(numItemsSecondary, makeSegundo)
+  terItems = _.times(numItemsTertiary, makeTertiary)
 }
 
 function makePulsor(index) {
@@ -1089,6 +1100,28 @@ function makeSegundo(index) {
   container.addChildAt(item, Math.floor(fxrand()*container.children.length))
   item.gotoAndPlay(Math.floor(fxrand() * item.totalFrames))
   // item.stop()
+  return item
+}
+
+
+function makeTertiary() {
+  // if (fxrand() < 0.4) {
+  //   // secAssetID = Math.floor(fxrand() * secondaryAssetData.length)
+  //   terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
+  // }
+  let itemData = tertiaryAssetData[terAssetID]
+  let item = new lib[itemData.name]()
+  recolor(item, itemData, nestedColor)
+  item.x = fxrand() * xMoveRangeTer - fxrand() * xMoveRangeTer
+  item.y = fxrand() * yMoveRangeTer - fxrand() * yMoveRangeTer
+  let targetScaleX = fxrand() < 0.4 ? 1 : -1
+  item.scaleX = item.scaleY = 0
+  cjs.Tween.get(item, {override:true})
+    .wait(Math.random() * tweenWaitMax)
+    .to({scaleX: targetScaleX, scaleY: 1}, tweenDuration, tweenEaseIn)
+  item.rotation = fxrand()*360
+  container.addChildAt(item, Math.floor(fxrand() * container.children.length))
+  item.gotoAndPlay(Math.floor(fxrand() * item.totalFrames))
   return item
 }
 
