@@ -827,6 +827,25 @@ let secondaryAssetData = [
   {name: "Sakkaya4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
+let tertiaryAssetData = [
+  {name: "Tertiary1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary9", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "Tertiary16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+]
+
 function updateParams() {
   const params = new URLSearchParams(location.search);
   params.set('id', iteration);
