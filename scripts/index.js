@@ -241,7 +241,25 @@ function loadData() {
         return objkt
       })
 
-      objkts[0].generationHash = "ooDnGTsPiKnBgvDCeZkP16h6zwnSN1gyKtZgi3Lq6g22caDtep6"
+      objkts[0].generationHash = "oodTLU88WkgH8rSC2zSngbwYV39Bk2fjh4AXxvCmqVrGBq81p7V"
+
+
+
+      objkts = _.take(objkts, 23)
+
+      console.log("data: ", objkts[0])      
+
+      objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
+        return {
+          generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
+          iteration: index + objkts.length,
+          owner: {
+            name: "Bilbo Baggins"
+          }
+        }
+      }))
+
+      console.log("objkts: ", objkts)
 
       kickoffMany()
     })
@@ -266,15 +284,14 @@ function colorBG(color) {
   bgRect.graphics.beginFill(color).drawRect(-5000, -5000, 10000, 10000)
 }
 
-
 function posPT() {
-  // let margin = 60
-  // loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
-  // loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
+  let margin = 60
+  loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
+  loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
   // loader.scaleX = loader.scaleY = 0.5 / scaler
 
-  loader.x = ((stage.width / 2) / scaler) - (60/scaler)
-  loader.y = ((stage.height / 2) / scaler) - (60/scaler)
+  // loader.x = ((stage.width / 2) / scaler) - (60/scaler)
+  // loader.y = ((stage.height / 2) / scaler) - (60/scaler)
   loader.scaleX = loader.scaleY = 0.5 / scaler
   // loader.gotoAndStop(0)
 }
@@ -500,8 +517,8 @@ function loadIteration(iter) {
   }), 'generationHash');
   bootFXHash(fxhash)
   console.log('generationHash: ', fxhash)
-  rarityTarget = fxrand()
-  // rarityTarget = 1
+  // rarityTarget = fxrand()
+  rarityTarget = 1
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
   // currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
@@ -697,20 +714,23 @@ function getGranularAngle(angle, numUnits) {
 
 function makeDialUnits(objkts) {
 
-  let numUnits = objkts.length
+  // let numUnits = objkts.length
 
   dialUnits = _.times(numUnits, makeDialUnit)
   container.addChild(dialFace)
 
   function makeDialUnit(index) {
-    let objktData = objkts[index]
+    let objktData = objkts[index] ? objkts[index] : {
+      generationHash: "ooSwp8Sb82gtgWYB1xoXUZXzDYtSQPbDrngRPj6TMdMkEMXSiNt"
+    }
+
     let degrees = (360 / numUnits) * (index)
     let point = PTUtils.polarDegrees(faceRadius, degrees)
 
     // seems dangerous to have this in here if I'm sorting...
     bootFXHash(objktData.generationHash)
-    rarityTarget = fxrand()
-    // rarityTarget = 1
+    // rarityTarget = fxrand()
+    rarityTarget = 1
     currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
     // currentColorScheme = fxSample(colorschemes)
     currentBGColor = fxSample(currentColorScheme)
@@ -821,6 +841,7 @@ function setDarkMode(isDark) {
 }
 
 function recolorUI(color) {
+  console.log("recoloringU")
   // check to see if it's dark or light
   let darkOrLight = lightOrDark(color)
   let shiftAmount = darkOrLight == "dark" ? 0.3 : -0.6
@@ -891,7 +912,7 @@ function startPrincessRaw() {
   secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   // terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
 
-  spawnNewPrincess()
+spawnNewPrincess()
 }
 
 function startPrincess(iteration) {
@@ -910,10 +931,11 @@ function startPrincess(iteration) {
 
   bootFXHash(fxhash)
   rarityTarget = 1
-  console.log("rarityTarget: ", rarityTarget)
+  // console.log("rarityTarget: ", rarityTarget)
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
+  recolorUI("#" + currentBGColor)
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
@@ -933,7 +955,7 @@ function startPrincess(iteration) {
   // // console.log("displayNum: ", displayNum.length)
   // document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
 
-  spawnNewPrincess()
+spawnNewPrincess()
 
 }
 

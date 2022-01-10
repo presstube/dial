@@ -18,52 +18,52 @@ function fxSampleRarityID(arr, rarityTarget) {
 
 const features = {}
 
-let AALoaderLib = document.createElement("script")
-let AALib = document.createElement("script")
-let AALibPile = document.createElement("script")
+// let AALoaderLib = document.createElement("script")
+// let AALib = document.createElement("script")
+// let AALibPile = document.createElement("script")
 let loaderLib
 let lib
 let libPile
 
-let capturer
-let captureIndex = 0
-let capturing = false
+// let capturer
+// let captureIndex = 0
+// let capturing = false
 
-let currentSorter = 'iteration'
+// let currentSorter = 'iteration'
 
 let rarityTarget
 
 let loader
-let lemonPrincessType
-let objkts
-let hammer
-let crosshairs
-let dialHand
-let dialFace = new cjs.Container()
-let dialUnits
-let currentRot = 0
-let lastRot = 0
-let faceRadius = 330
-let dialInnerRadius = 0
-let dialOuterRadius = 330
-let numUnits = 300
-let increment = 360 / numUnits
-let granAnglePrev = 0
-let granAngleCurrent = 0
-let granAngleDelta = 0
-let granAngleOffset = 0
-let dialRotation = 0
-let line
+// let lemonPrincessType
+// let objkts
+// let hammer
+// let crosshairs
+// let dialHand
+// let dialFace = new cjs.Container()
+// let dialUnits
+// let currentRot = 0
+// let lastRot = 0
+// let faceRadius = 330
+// let dialInnerRadius = 0
+// let dialOuterRadius = 330
+// let numUnits = 300
+// let increment = 360 / numUnits
+// let granAnglePrev = 0
+// let granAngleCurrent = 0
+// let granAngleDelta = 0
+// let granAngleOffset = 0
+// let dialRotation = 0
+// let line
 let bgRect
 let currentColorScheme
 let currentBGColor
 let darkMode = true
-let iteration
-let dialInterval
-let clickTimeout
-let units = _.times(numUnits, index => {
-  return index * increment
-})
+// let iteration
+// let dialInterval
+// let clickTimeout
+// let units = _.times(numUnits, index => {
+//   return index * increment
+// })
 
 let colorschemes = [
 
@@ -195,7 +195,7 @@ let tertiaryAssetData = [
 loadLoaderLib()
 
 function loadLoaderLib() {
-    console.log("loaded loader lib")
+    // console.log("loaded loader lib")
     let comp = AdobeAn.getComposition("6E551C23227A4C0691433EE6D5852D40")
     loaderLib = comp.getLibrary()
     kickoffLoader()
@@ -209,7 +209,7 @@ function loadLoaderLib() {
 }
 
 function loadLib() {
-  console.log("loading lib ")
+  // console.log("loading lib ")
     let comp = AdobeAn.getComposition("1B1D331872B84B678B30A74AB80E74A9")
     lib = comp.getLibrary()
     loadLibPile()
@@ -221,7 +221,7 @@ function loadLib() {
 }
 
 function loadLibPile() {
-  console.log("loading lib pile")
+  // console.log("loading lib pile")
     let comp = AdobeAn.getComposition("9DDB8738695F40A58CB0CE0618646207")
     libPile = comp.getLibrary()
 
@@ -470,31 +470,31 @@ function handleNext() {
 function tick(e) {
   stage.update()
   
-  if (capturing) {
-    capturer.capture(canvas);
-    captureIndex++
-    if (captureIndex == 96) {
-      capturer.stop();
-      capturer.save(blob => {
-        // title.visible = true
-        download( blob, "presstube-lemon-princess-" + iteration + ".gif", "image/gif" );
-        // document.getElementById("overlay").style.visibility = "hidden"
-        // console.log("asdsad: ", onResize)
-        // window.onresize = window.savedResize
-        window.onresize()
-        loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
-        loader.visible = true
-        document.getElementById("overlay").style.visibility = "visible"
+  // if (capturing) {
+  //   capturer.capture(canvas);
+  //   captureIndex++
+  //   if (captureIndex == 96) {
+  //     capturer.stop();
+  //     capturer.save(blob => {
+  //       // title.visible = true
+  //       download( blob, "presstube-lemon-princess-" + iteration + ".gif", "image/gif" );
+  //       // document.getElementById("overlay").style.visibility = "hidden"
+  //       // console.log("asdsad: ", onResize)
+  //       // window.onresize = window.savedResize
+  //       window.onresize()
+  //       loader.gotoAndStop(Math.abs(iteration-1 % loader.totalFrames))
+  //       loader.visible = true
+  //       document.getElementById("overlay").style.visibility = "visible"
 
-        capturer = new CCapture({
-          format: 'gif',
-          workersPath: 'libs/',
-          framerate: 30,
-        })
+  //       capturer = new CCapture({
+  //         format: 'gif',
+  //         workersPath: 'libs/',
+  //         framerate: 30,
+  //       })
 
-      });
-    }
-  }
+  //     });
+  //   }
+  // }
 }
 
 function loadIteration(iter) {
@@ -758,8 +758,8 @@ let oldResize = window.onresize
 window.onresize = e => {
   // console.log("new resize")
   oldResize(e)
-  posPT()
-  posLemonPrincessType()
+  // posPT()
+  // posLemonPrincessType()
 }
 
 function lightOrDark(color) {
@@ -876,6 +876,8 @@ function dialReadjust(iteration) {
 }
 
 function startPrincessRaw() {
+  console.log("fxhash", fxhash)
+
   loader.visible = false
 
   rarityTarget = 1
@@ -885,7 +887,6 @@ function startPrincessRaw() {
   colorBG("#" + currentBGColor)
 
   // setting initial values - comes after color so that color can be first thing easily for interface
-  console.log("asldkajsdlsakj", maxItems)
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
   // numItemsTertiary = Math.floor(fxrand() * 20) + 20
