@@ -228,8 +228,8 @@ function loadLibPile() {
     let comp = AdobeAn.getComposition("9DDB8738695F40A58CB0CE0618646207")
     libPile = comp.getLibrary()
 
-    // kickoffSingle()
-    loadData()
+    kickoffSingle()
+    // loadData()
 
   }, false)
 }
@@ -281,7 +281,8 @@ function kickoffLoader() {
   loader = new loaderLib.PTLogoSigilsSmall()
   container.addChild(loader)
 
-  loadLib()
+  _.delay(loadLib, 500)
+  // loadLib()
 }
 
 function colorBG(color) {
