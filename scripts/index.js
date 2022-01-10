@@ -65,6 +65,10 @@ let units = _.times(numUnits, index => {
   return index * increment
 })
 
+
+// rarity is by color
+// what if colorscheme was drillable on click
+
 let colorschemes = [
 
 {scheme: ["0e0004","31081f","6b0f1a","b91372","fa198b","b7ad99","ff4365","00d9c0","fffff3"], name: "chiascurro chroma squelch"},
@@ -146,18 +150,18 @@ let primaryAssetData = [
 ]
 
 let secondaryAssetData = [
-  {name: "Sakkaya6", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya7", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya8", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya17", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya16", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya14", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "ConversionTwitch", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "PreferenceFactory", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "OscillationQuad", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "WonderTract", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "RejectedTransmission", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "CollabSeq", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "ChallengeStruct", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "ContentmentWreath", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "TallyTrade", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "TransmutionFemur", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "PulseCollar", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "MorselGobble", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
