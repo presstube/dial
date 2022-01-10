@@ -130,20 +130,19 @@ let rotationRateMax = 0.5
 let rate = 1
 
 let primaryAssetData = [
-  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Thrumpus", playhead: "loop", fill: true, stroke:true},
-  {name: "Octoid", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Pulsor0", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Features0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Constellation1", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {name: "Looper2", playhead: "loop", fill: true, stroke:false},
-  {name: "Constellation0", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {name: "Looper3", playhead: "loop", fill: true, stroke:false},
-  {name: "Hairy0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "BugmaAnchor", playhead: "loop", fill: true, stroke:true},
-  {name: "Bugma1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Pulsor1", playhead: "pingpong", fill: true, stroke:true},
-  {name: "Looper0", playhead: "loop", fill: true, stroke:true},
+  {name: "FurtiveOffering", playhead: "pingpong", fill: true, stroke:true},
+  {name: "UsefulConversion", playhead: "loop", fill: true, stroke:true},
+  {name: "CalculatedOutreach", playhead: "pingpong", fill: true, stroke:true},
+  {name: "HostPortion", playhead: "pingpong", fill: true, stroke:true},
+  {name: "SensoryInflux", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "TenseJunction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "PartialRemembrance", playhead: "loop", fill: true, stroke:false},
+  {name: "SwiftReaction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {name: "CompletedDream", playhead: "loop", fill: true, stroke:false},
+  {name: "TactileWhisp", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "SweetFumble", playhead: "loop", fill: true, stroke:true},
+  {name: "PreciousDream", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "FamishedPupa", playhead: "loop", fill: true, stroke:true},
 ]
 
 let secondaryAssetData = [
@@ -157,13 +156,15 @@ let secondaryAssetData = [
   {name: "Sakkaya10", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya13", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya12", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "PulseCollar", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {name: "Sakkaya11", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya5", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya0", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "Sakkaya4", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "CircularWish", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "TriongusButtle", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "TriadiclButtus", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {name: "KidneyShimmer", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
 let tertiaryAssetData = [
@@ -245,21 +246,21 @@ function loadData() {
 
 
 
-      objkts = _.take(objkts, 23)
+      // objkts = _.take(objkts, 23)
 
-      console.log("data: ", objkts[0])      
+      // console.log("data: ", objkts[0])      
 
-      objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
-        return {
-          generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
-          iteration: index + objkts.length,
-          owner: {
-            name: "Bilbo Baggins"
-          }
-        }
-      }))
+      // objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
+      //   return {
+      //     generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
+      //     iteration: index + objkts.length,
+      //     owner: {
+      //       name: "Bilbo Baggins"
+      //     }
+      //   }
+      // }))
 
-      console.log("objkts: ", objkts)
+      // console.log("objkts: ", objkts)
 
       kickoffMany()
     })
@@ -285,13 +286,13 @@ function colorBG(color) {
 }
 
 function posPT() {
-  let margin = 60
-  loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
-  loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
+  // let margin = 60
+  // loader.x = ((stage.width / 2) / scaler) - (margin/scaler)
+  // loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
   // loader.scaleX = loader.scaleY = 0.5 / scaler
 
-  // loader.x = ((stage.width / 2) / scaler) - (60/scaler)
-  // loader.y = ((stage.height / 2) / scaler) - (60/scaler)
+  loader.x = ((stage.width / 2) / scaler) - (60/scaler)
+  loader.y = ((stage.height / 2) / scaler) - (60/scaler)
   loader.scaleX = loader.scaleY = 0.5 / scaler
   // loader.gotoAndStop(0)
 }
