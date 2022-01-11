@@ -16,7 +16,7 @@ function fxSampleRarityID(arr, rarityTarget) {
 ///////////////////////////
 ///////////////////////////
 
-const features = {}
+// META 
 
 let AALoaderLib = document.createElement("script")
 let AALib = document.createElement("script")
@@ -33,10 +33,8 @@ let currentSorter = 'iteration'
 
 let rarityTarget
 
-let loader
 let lemonPrincessType
 let objkts
-let hammer
 let crosshairs
 let dialHand
 let dialFace = new cjs.Container()
@@ -55,8 +53,6 @@ let granAngleOffset = 0
 let dialRotation = 0
 let line
 let bgRect
-let currentColorScheme
-let currentBGColor
 let darkMode = true
 let iteration
 let dialInterval
@@ -66,45 +62,10 @@ let units = _.times(numUnits, index => {
 })
 
 
-// rarity is by color
-// what if colorscheme was drillable on click
-
-let colorschemes = [
-
-{scheme: ["0e0004","31081f","6b0f1a","b91372","fa198b","b7ad99","ff4365","00d9c0","fffff3"], name: "chroma squelch"},
-{scheme: ["590d22","800f2f","a4133c","c9184a","ff4d6d","ff758f","d2fd35","ffccd5","fff0f3"], name: "raspberry sorbet"},
-{scheme: ["d8f3dc","b7e4c7","ff0a50","74c69d","52b788","40916c","2d6a4f","1b4332","081c15"], name: "mint strawberry"},
-{scheme: ["ffd9da","ea638c","89023e","30343f","1b2021","93b7be","798071","623cea","16302b"], name: "vibrant prancy decepticon"},
-{scheme: ["9a8f97","c3baba","e9e3e6","b2b2b2","736f72","a30b37","40bcd8","355070","49beaa"], name: "icy puddle"},
-{scheme: ["2d2a32","ddd92a","eae151","eeefa8","fafdf6","cc2936","6b818c","eee5e9","c7e8f3"], name: "yacht panties"},
-{scheme: ["7cfef0","6bffb8","2ceaa3","28965a","2a6041","090909","4b5043","a40e4c","2c2c54"], name: "dusk forest"},
-{scheme: ["bbe1c3","a7cdbd","869d7a","91785d","8b5d33","433e0e","e0b0d5","ffa552","ba5624"], name: "cordoroy ashtray"},
-{scheme: ["4d5057","4e6e5d","4da167","3bc14a","cfcfcf","ed1c24","fdfffc","f1d302","f2e2d2"], name: "citrus chinos"},
-{scheme: ["985f99","9684a1","aaacb0","b6c9bb","bfedc1","2d0320","0d160b","5c1a1b","5c573e"], name: "middleaged pony"},
-{scheme: ["104f55","32746d","9ec5ab","01200f","011502","885053","fe5f55","23022e","ffa69e"], name: "fragrant domicile"},
-{scheme: ["78c0e0","449dd1","192bc2","150578","0e0e52","6eeb83","e4ff1a","ffb800","ff5714"], name: "vibro squinky"},
-{scheme: ["0d1f2d","546a7b","9ea3b0","fae1df","e4c3ad","6d2e46","ffe74c","ff5964","f9db6d"], name: "pastel fruit balance"},
-{scheme: ["007f5f","2b9348","55a630","80b918","aacc00","bfd200","eb4833","eeef20","ffff3f"], name: "mealy apple"},
-{scheme: ["247ba0","70c1b3","b2dbbf","f3ffbd","ff1654","30362f","625834","da7422","8b2635"], name: "dashing plop"},
-{scheme: ["331832","d81e5b","f0544f","c6d8d3","fdf0d5"], name: "grape pony harmonica"},
-{scheme: ["1b2f33","28502e","47682c","8c7051","ef3054"], name: "forest strawberry pop"},
-{scheme: ["d8e2dc","ffffff","ffcad4","f4acb7","9d8189"], name: "overcast barbie flesh"},
-{scheme: ["5c415d","694966","74526c","dbd053","c89933"], name: "gentle aubergine pram"},
-{scheme: ["fbc2b5","ffa8a9","f786aa","a14a76","cdb2ab"], name: "maxi flesh"},
-{scheme: ["ea526f","070600","f7f7ff","23b5d3","279af1"], name: "valiant robot"},
-{scheme: ["c4bbaf","a5978b","5c4742","8d5b4c","5a2a27"], name: "desert chocolate"},
-{scheme: ["07020d","5db7de","f1e9db","a39b8b","716a5c"], name: "warrior raccoon"},
-{scheme: ["98eb59","801912","cf1d11","ed5d53","c2534c"], name: "crimson acid bath"},
-{scheme: ["1d1e18","6b8f71","aad2ba","d9fff5","b9f5d8"], name: "slightly dead princess"},
-{scheme: ["f45b69","f6e8ea","22181c","5a0001","f13030"], name: "rouge pop"},
-{scheme: ["527a2c","ebb2ce","e6177b","6b4a5a","ffc7e2"], name: "watermelon completion"},
-{scheme: ["000000","ffffff","494949","7c7a7a","ff5d73"], name: "dark cupcake"},
-{scheme: ["25ced1","ffffff","fceade","ff8a5b","ea526f"], name: "90s chapstick"},
-{scheme: ["87946a","261e38","d631a2","c9bce6","381a7a"], name: "righteous codpiece"},
-
-]
-
-
+// MINT
+let loader
+let currentColorScheme
+let currentBGColor
 let items
 let secItems
 let terItems
@@ -133,42 +94,78 @@ let tweenEaseOut = cjs.Ease.quintInOut
 let rotationRateMax = 0.5
 let rate = 1
 
+
+let colorschemes = [
+
+{scheme: ["0e0004","31081f","6b0f1a","b91372","fa198b","b7ad99","ff4365","00d9c0","fffff3"], featureName: "chroma squelch"},
+{scheme: ["590d22","800f2f","a4133c","c9184a","ff4d6d","ff758f","d2fd35","ffccd5","fff0f3"], featureName: "raspberry sorbet"},
+{scheme: ["d8f3dc","b7e4c7","ff0a50","74c69d","52b788","40916c","2d6a4f","1b4332","081c15"], featureName: "mint strawberry"},
+{scheme: ["ffd9da","ea638c","89023e","30343f","1b2021","93b7be","798071","623cea","16302b"], featureName: "vibrant prancy decepticon"},
+{scheme: ["9a8f97","c3baba","e9e3e6","b2b2b2","736f72","a30b37","40bcd8","355070","49beaa"], featureName: "icy puddle"},
+{scheme: ["2d2a32","ddd92a","eae151","eeefa8","fafdf6","cc2936","6b818c","eee5e9","c7e8f3"], featureName: "yacht panties"},
+{scheme: ["7cfef0","6bffb8","2ceaa3","28965a","2a6041","090909","4b5043","a40e4c","2c2c54"], featureName: "dusk forest"},
+{scheme: ["bbe1c3","a7cdbd","869d7a","91785d","8b5d33","433e0e","e0b0d5","ffa552","ba5624"], featureName: "cordoroy ashtray"},
+{scheme: ["4d5057","4e6e5d","4da167","3bc14a","cfcfcf","ed1c24","fdfffc","f1d302","f2e2d2"], featureName: "citrus chinos"},
+{scheme: ["985f99","9684a1","aaacb0","b6c9bb","bfedc1","2d0320","0d160b","5c1a1b","5c573e"], featureName: "middleaged pony"},
+{scheme: ["104f55","32746d","9ec5ab","01200f","011502","885053","fe5f55","23022e","ffa69e"], featureName: "fragrant domicile"},
+{scheme: ["78c0e0","449dd1","192bc2","150578","0e0e52","6eeb83","e4ff1a","ffb800","ff5714"], featureName: "vibro squinky"},
+{scheme: ["0d1f2d","546a7b","9ea3b0","fae1df","e4c3ad","6d2e46","ffe74c","ff5964","f9db6d"], featureName: "pastel fruit balance"},
+{scheme: ["007f5f","2b9348","55a630","80b918","aacc00","bfd200","eb4833","eeef20","ffff3f"], featureName: "mealy apple"},
+{scheme: ["247ba0","70c1b3","b2dbbf","f3ffbd","ff1654","30362f","625834","da7422","8b2635"], featureName: "dashing plop"},
+{scheme: ["331832","d81e5b","f0544f","c6d8d3","fdf0d5"], featureName: "grape pony harmonica"},
+{scheme: ["1b2f33","28502e","47682c","8c7051","ef3054"], featureName: "forest strawberry pop"},
+{scheme: ["d8e2dc","ffffff","ffcad4","f4acb7","9d8189"], featureName: "overcast barbie flesh"},
+{scheme: ["5c415d","694966","74526c","dbd053","c89933"], featureName: "gentle aubergine pram"},
+{scheme: ["fbc2b5","ffa8a9","f786aa","a14a76","cdb2ab"], featureName: "maxi flesh"},
+{scheme: ["ea526f","070600","f7f7ff","23b5d3","279af1"], featureName: "valiant robot"},
+{scheme: ["c4bbaf","a5978b","5c4742","8d5b4c","5a2a27"], featureName: "desert chocolate"},
+{scheme: ["07020d","5db7de","f1e9db","a39b8b","716a5c"], featureName: "warrior raccoon"},
+{scheme: ["98eb59","801912","cf1d11","ed5d53","c2534c"], featureName: "crimson acid bath"},
+{scheme: ["1d1e18","6b8f71","aad2ba","d9fff5","b9f5d8"], featureName: "slightly dead princess"},
+{scheme: ["f45b69","f6e8ea","22181c","5a0001","f13030"], featureName: "rouge pop"},
+{scheme: ["527a2c","ebb2ce","e6177b","6b4a5a","ffc7e2"], featureName: "watermelon completion"},
+{scheme: ["000000","ffffff","494949","7c7a7a","ff5d73"], featureName: "dark cupcake"},
+{scheme: ["25ced1","ffffff","fceade","ff8a5b","ea526f"], featureName: "90s chapstick"},
+{scheme: ["87946a","261e38","d631a2","c9bce6","381a7a"], featureName: "righteous codpiece"},
+
+]
+
 let primaryAssetData = [
-  {name: "FurtiveOffering", playhead: "pingpong", fill: true, stroke:true},
-  {name: "UsefulConversion", playhead: "loop", fill: true, stroke:true},
-  {name: "CalculatedOutreach", playhead: "pingpong", fill: true, stroke:true},
-  {name: "HostPortion", playhead: "pingpong", fill: true, stroke:true},
-  {name: "SensoryInflux", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "TenseJunction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {name: "PartialRemembrance", playhead: "loop", fill: true, stroke:false},
-  {name: "SwiftReaction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {name: "CompletedDream", playhead: "loop", fill: true, stroke:false},
-  {name: "TactileWhisp", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "SweetFumble", playhead: "loop", fill: true, stroke:true},
-  {name: "PreciousDream", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "FamishedPupa", playhead: "loop", fill: true, stroke:true},
+  {featureName: "furtive offering", name: "FurtiveOffering", playhead: "pingpong", fill: true, stroke:true},
+  {featureName: "useful conversion", name: "UsefulConversion", playhead: "loop", fill: true, stroke:true},
+  {featureName: "calculated outreach", name: "CalculatedOutreach", playhead: "pingpong", fill: true, stroke:true},
+  {featureName: "host portion", name: "HostPortion", playhead: "pingpong", fill: true, stroke:true},
+  {featureName: "sensory influx", name: "SensoryInflux", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "tense junction", name: "TenseJunction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {featureName: "partial remembrance", name: "PartialRemembrance", playhead: "loop", fill: true, stroke:false},
+  {featureName: "swift reaction", name: "SwiftReaction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {featureName: "completed dream", name: "CompletedDream", playhead: "loop", fill: true, stroke:false},
+  {featureName: "tactile whisp", name: "TactileWhisp", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "sweet fumble", name: "SweetFumble", playhead: "loop", fill: true, stroke:true},
+  {featureName: "precious dream", name: "PreciousDream", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "famished pupa", name: "FamishedPupa", playhead: "loop", fill: true, stroke:true},
 ]
 
 let secondaryAssetData = [
-  {name: "ConversionTwitch", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "PreferenceFactory", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "OscillationQuad", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "WonderTract", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "RejectedTransmission", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "CollabSeq", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "ChallengeStruct", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "ContentmentWreath", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "TallyTrade", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "TransmutionFemur", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "PulseCollar", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "MorselGobble", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "CircularWish", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "TriongusButtle", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "TriadiclButtus", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {name: "KidneyShimmer", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "conversion twitch", name: "ConversionTwitch", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "preference factory", name: "PreferenceFactory", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "oscillation quad", name: "OscillationQuad", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "wonder tract", name: "WonderTract", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "rejected transmission", name: "RejectedTransmission", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "collab seq", name: "CollabSeq", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "challenge struct", name: "ChallengeStruct", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "contentment wreath", name: "ContentmentWreath", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "tally trade", name: "TallyTrade", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "transmution femur", name: "TransmutionFemur", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "pulse collar", name: "PulseCollar", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "morsel gobble", name: "MorselGobble", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "hopeful pathway 1", name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "hopeful pathway 2", name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "hopeful pathway 3", name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "circular wish", name: "CircularWish", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "triongus buttle", name: "TriongusButtle", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "triadic buttus", name: "TriadiclButtus", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "kidney shimmer", name: "KidneyShimmer", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
 let tertiaryAssetData = [
@@ -189,7 +186,27 @@ let tertiaryAssetData = [
   {name: "Tertiary15", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
+// this gets called a la cart around town
+let manifest = []
 
+let features = {}
+
+function prepMintValues() {
+  // sort out all the shit and put it in $features
+
+  // console.log("manifest: ", manifest)
+
+  let names = _.map(manifest, item => {
+    return item.featureName
+  })
+
+  const occurrences = names.reduce(function (acc, curr) {
+    return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc
+  }, {})
+
+  features = _.merge(occurrences, features)
+  console.log("features: ", features)
+}
 
 loadLoaderLib()
 
@@ -208,11 +225,11 @@ function loadLoaderLib() {
 }
 
 function loadLib() {
-  console.log("loading lib ")
+  // console.log("loading lib ")
   AALib.setAttribute("src", "AA/lib.js")
   document.body.appendChild(AALib)
   AALib.addEventListener("load", () => {
-    console.log("completed loading lib ")
+    // console.log("completed loading lib ")
     let comp = AdobeAn.getComposition("1B1D331872B84B678B30A74AB80E74A9")
     lib = comp.getLibrary()
     loadLibPile()
@@ -220,11 +237,11 @@ function loadLib() {
 }
 
 function loadLibPile() {
-  console.log("loading lib pile")
+  // console.log("loading lib pile")
   AALibPile.setAttribute("src", "AA/lib-pile.js")
   document.body.appendChild(AALibPile)
   AALibPile.addEventListener("load", () => {
-    console.log("completed loading lib pile")
+    // console.log("completed loading lib pile")
     let comp = AdobeAn.getComposition("9DDB8738695F40A58CB0CE0618646207")
     libPile = comp.getLibrary()
 
@@ -905,20 +922,21 @@ function dialReadjust(iteration) {
 function startPrincessRaw() {
   loader.visible = false
 
-  rarityTarget = 1
-  // rarityTarget = fxrand()
-  console.log("HASH ", fxhash)
-  currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
-  currentBGColor = fxSample(currentColorScheme)
-  colorBG("#" + currentBGColor)
-  numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
-  numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
+  // rarityTarget = 1
+  // // rarityTarget = fxrand()
+  // console.log("HASH ", fxhash)
+  // currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
+  // currentBGColor = fxSample(currentColorScheme)
+  // colorBG("#" + currentBGColor)
+  // numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
+  // numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
+  // assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
+  // secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
+  
   // numItemsTertiary = Math.floor(fxrand() * 20) + 20
-  assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
-  secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   // terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
 
-spawnNewPrincess()
+  spawnNewPrincess()
 }
 
 function startPrincess(iteration) {
@@ -936,17 +954,6 @@ function startPrincess(iteration) {
   }), 'generationHash');
 
   bootFXHash(fxhash)
-  rarityTarget = 1
-  // console.log("rarityTarget: ", rarityTarget)
-  currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
-  currentBGColor = fxSample(currentColorScheme)
-  colorBG("#" + currentBGColor)
-  recolorUI("#" + currentBGColor)
-  numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
-  numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
-  assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
-  secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
-
 
   // // painting UI as dark or light mode
   // let currentLightOrDark = lightOrDark(currentBGColor)
@@ -961,7 +968,8 @@ function startPrincess(iteration) {
   // // console.log("displayNum: ", displayNum.length)
   // document.getElementById('overlay').innerHTML = '<p class="hash">' + fxhash + '</p>' + '<p class="num">' + displayNum + '/' + numUnits + '</p>'
 
-spawnNewPrincess()
+  spawnNewPrincess()
+  recolorUI("#" + currentBGColor)
 
 }
 
@@ -969,9 +977,9 @@ function destroyCurrentPrincess() {
   // console.log('destroying current princess')
   _.map(items, destroyPrincessItem)
   _.map(secItems, destroyPrincessItem)
-  // _.map(terItems, destroyPrincessItem)
   items = []
   secItems = []
+  // _.map(terItems, destroyPrincessItem)
   // terItems = []
 }
 
@@ -990,12 +998,25 @@ function destroyPrincessItem(item) {
 }
 
 function spawnNewPrincess() {
+  rarityTarget = 1
+  // console.log("rarityTarget: ", rarityTarget)
+  let scheme = fxSampleRarity(colorschemes, rarityTarget)
+  features.palette = scheme.featureName 
+  currentColorScheme = scheme.scheme
+  currentBGColor = fxSample(currentColorScheme)
+  colorBG("#" + currentBGColor)
+  numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
+  numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
+  assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
+  secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   color = "#" + fxSample(currentColorScheme)
   nestedColor = "#" + fxSample(currentColorScheme)
-  // terColor = "#" + fxSample(currentColorScheme)
   items = _.times(numItemsPrimary, makePulsor)
   secItems = _.times(numItemsSecondary, makeSegundo)
+  // terColor = "#" + fxSample(currentColorScheme)
   // terItems = _.times(numItemsTertiary, makeTertiary)
+
+  prepMintValues()
 }
 
 function makePulsor(index) {
@@ -1006,6 +1027,7 @@ function makePulsor(index) {
   }
 
   let itemData = primaryAssetData[assetID]
+  manifest.push(itemData)
   // let itemData = assetData[1]
 
   let item = new lib[itemData.name]()
@@ -1072,6 +1094,7 @@ function makePulsor(index) {
   function makeNested() {
     // let nestedItemData = fxSample(primaryAssetData)
     let nestedItemData = fxSampleRarity(primaryAssetData, rarityTarget)
+    manifest.push(nestedItemData)
     // console.log("asdasdsa:", nestedItemData)
     // let nestedItemData = secondaryAssetData[2]
     let nestedItem = new lib[nestedItemData.name]()
@@ -1102,7 +1125,6 @@ function makePulsor(index) {
 
   return item
 
-
 }
 
 function makeSegundo(index) {
@@ -1111,6 +1133,7 @@ function makeSegundo(index) {
     secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   }
   let itemData = secondaryAssetData[secAssetID]
+  manifest.push(itemData)
   let item = new libPile[itemData.name]()
   recolor(item, itemData, color)
   item.x = fxrand() * xMoveRangeSec - fxrand() * xMoveRangeSec
@@ -1124,6 +1147,8 @@ function makeSegundo(index) {
   container.addChildAt(item, Math.floor(fxrand()*container.children.length))
   item.gotoAndPlay(Math.floor(fxrand() * item.totalFrames))
   // item.stop()
+
+
   return item
 }
 
@@ -1146,6 +1171,8 @@ function makeTertiary() {
   item.rotation = fxrand()*360
   container.addChildAt(item, Math.floor(fxrand() * container.children.length))
   item.gotoAndPlay(Math.floor(fxrand() * item.totalFrames))
+
+
   return item
 }
 
