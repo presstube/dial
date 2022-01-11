@@ -8,22 +8,17 @@
   </head>
   <body>
 
-    <div id="wrapper" class="center">
-      <div class="" id="overlay"></div>
+    <div>
       <canvas id="cjs-canvas"></canvas>
     </div>
-
 
     <script src="libs/createjs.min.js"></script>
     <script src="libs/lodash.core.min.js"></script>
     <script src="libs/pSBC.js"></script>
-    <script src="libs/CCapture.all.min.js"></script>
     <script src="scripts/PTUtils.js"></script>
-    
     <script src="AA/loader.js"></script>
     <script src="AA/lib.js"></script>
     <script src="AA/lib-pile.js"></script>
-
 
     <script id="fxhash-snippet">
       //---- do not edit the following code (you can indent as you wish)
@@ -54,8 +49,33 @@
         console.log("fxhash: TRIGGER PREVIEW")
       }
       //---- /do not edit the following code
-    </script>
 
+      function bootFXHash(hash) {
+        if (hash) {
+          fxhash = hash
+        } else {
+          fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
+        }
+        b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
+        fxhashTrunc = fxhash.slice(2)
+        regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
+        hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
+        sfc32 = (a, b, c, d) => {
+          return () => {
+            a |= 0; b |= 0; c |= 0; d |= 0
+            var t = (a + b | 0) + d | 0
+            d = d + 1 | 0
+            a = b ^ b >>> 9
+            b = c + (c << 3) | 0
+            c = c << 21 | c >>> 11
+            c = c + t | 0
+            return (t >>> 0) / 4294967296
+          }
+        }
+        fxrand = sfc32(...hashes)
+        return fxhash
+      }
+    </script>
 
     <script>
 
