@@ -436,11 +436,11 @@ function kickoffMany() {
       // console.log("dialRotation: ", dialRotation)
       // console.log("granAngleDelta: ", granAngleDelta)
       let totalMinted = objkts.length-1
-      if (dialRotation >= totalMinted * increment) {
+      if (granAngleDelta < 0 && (dialRotation <= 0 || dialRotation >= totalMinted * increment)) {
         dialRotation = totalMinted * increment
         granAngleCurrent = getGranularAngle(angle, numUnits)
         granAngleOffset = granAngleCurrent - dialRotation
-      } else if (dialRotation <= 0) {
+      } else if (granAngleDelta > 0 && dialRotation >= totalMinted * increment) {
         dialRotation = 0
         granAngleCurrent = getGranularAngle(angle, numUnits)
         granAngleOffset = granAngleCurrent - dialRotation
@@ -756,7 +756,7 @@ function makeDialUnits(objkts) {
 
   function makeDialUnit(index) {
     let objktData = objkts[index] ? objkts[index] : {
-      generationHash: "ooD9dZBWHW2SGHHPVzNsG4ENcEJ75G1f2VmKFR3teahTgvv36ig"
+      generationHash: "ooow3rcMs8ousgZiLLRYHBXLuYko9N42A7zr9658Pfn4tAUMbxE"
     }
 
     let degrees = (360 / numUnits) * (index)
@@ -998,7 +998,7 @@ function destroyPrincessItem(item) {
 
 function spawnNewPrincess() {
 rarityTarget = fxrand()
-// console.log("fxhash: ", fxhash)
+console.log("fxhash: ", fxhash)
 // console.log("rarityTarget: ", rarityTarget)
 // rarityTarget = 1
   // console.log("rarityTarget: ", rarityTarget)
@@ -1034,8 +1034,8 @@ function makePulsor(index) {
   manifest.push(itemData)
   // let itemData = assetData[1]
 
-  console.log("lib: ", lib)
-  console.log("asdasd: ", itemData.name)
+  // console.log("lib: ", lib)
+  // console.log("asdasd: ", itemData.name)
   let item = new lib[itemData.name]()
 
   recolor(item, itemData, color)
