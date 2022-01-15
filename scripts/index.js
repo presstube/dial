@@ -70,7 +70,7 @@ let items
 let secItems
 let terItems
 let princessItems = []
-let maxItems = 6
+let maxItems = 4
 let minItems = 4
 let numItemsPrimary
 let numItemsSecondary
@@ -263,24 +263,23 @@ function loadData() {
         return objkt
       })
 
-      objkts[0].generationHash = "oodTLU88WkgH8rSC2zSngbwYV39Bk2fjh4AXxvCmqVrGBq81p7V"
+      // objkts[0].generationHash = "oodTLU88WkgH8rSC2zSngbwYV39Bk2fjh4AXxvCmqVrGBq81p7V"
 
-
-
-      objkts = _.take(objkts, 23)
+      // objkts = _.take(objkts, 23)
+      objkts = _.take(objkts, 187)
 
       // console.log("data: ", objkts[0])      
 
-      objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
-        return {
-          generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
-          iteration: index + objkts.length,
-          owner: {
-            name: "Bilbo Baggins"
-          },
-          notYetMinted: true
-        }
-      }))
+      // objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
+      //   return {
+      //     generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
+      //     iteration: index + objkts.length,
+      //     owner: {
+      //       name: "Bilbo Baggins"
+      //     },
+      //     notYetMinted: true
+      //   }
+      // }))
 
       // console.log("objkts: ", objkts)
 
@@ -315,7 +314,7 @@ function posPT() {
   // loader.scaleX = loader.scaleY = 0.5 / scaler
 
   loader.x = ((stage.width / 2) / scaler) - (60 / scaler)
-  loader.y = ((stage.height / 2) / scaler) - (80 / scaler)
+  loader.y = ((stage.height / 2) / scaler) - (60 / scaler)
   loader.scaleX = loader.scaleY = 0.5 / scaler
   // loader.gotoAndStop(0)
 }
@@ -323,7 +322,7 @@ function posPT() {
 function posLemonPrincessType() {
   // let margin = 80
   lemonPrincessType.x = (-(stage.width / 2) / scaler) + (120/scaler)
-  lemonPrincessType.y = (-(stage.height / 2) / scaler) + (70/scaler)
+  lemonPrincessType.y = (-(stage.height / 2) / scaler) + (50/scaler)
   lemonPrincessType.scaleX = lemonPrincessType.scaleY = 0.5 / scaler
   // lemonPrincessType.gotoAndStop(0)
 }
@@ -434,6 +433,17 @@ function kickoffMany() {
       // click.play(0,0)
       // dialRotation += granAngleDelta
       dialRotation = granAngleCurrent - granAngleOffset
+      console.log("dialRotation: ", dialRotation)
+      let totalMinted = objkts.length-1
+      if (dialRotation >= totalMinted * increment) {
+        dialRotation = totalMinted * increment
+        granAngleCurrent = getGranularAngle(angle, numUnits)
+        granAngleOffset = granAngleCurrent - dialRotation
+      } else if (dialRotation <= 0) {
+        dialRotation = 0
+        granAngleCurrent = getGranularAngle(angle, numUnits)
+        granAngleOffset = granAngleCurrent - dialRotation
+      }
       let rawDegree = Math.round((dialRotation % 360)/increment)
       let degree = rawDegree
       degree = rawDegree < 0 ? numUnits + rawDegree : rawDegree 
@@ -540,9 +550,9 @@ function loadIteration(iter) {
     return objkt.iteration == iteration;
   }), 'generationHash');
   bootFXHash(fxhash)
-  console.log('generationHash: ', fxhash)
+  // console.log('generationHash: ', fxhash)
 rarityTarget = fxrand()
-console.log("rarityTarget: ", rarityTarget)
+// console.log("rarityTarget: ", rarityTarget)
 // rarityTarget = 1
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
   currentBGColor = fxSample(currentColorScheme)
@@ -707,7 +717,6 @@ function gifExport() {
   
   posPT()
   posLemonPrincessType()
-  lemonPrincessType.y -= 20 / scaler
   loader.play()
   // loader.visible = false
   loader.x = dimensions / 1.2
@@ -867,7 +876,7 @@ function setDarkMode(isDark) {
 }
 
 function recolorUI(color) {
-  console.log("recoloringU")
+  // console.log("recoloringU")
   // check to see if it's dark or light
   let darkOrLight = lightOrDark(color)
   let shiftAmount = darkOrLight == "dark" ? 0.3 : -0.6
@@ -1022,6 +1031,8 @@ function makePulsor(index) {
   manifest.push(itemData)
   // let itemData = assetData[1]
 
+  console.log("lib: ", lib)
+  console.log("asdasd: ", itemData.name)
   let item = new lib[itemData.name]()
 
   recolor(item, itemData, color)
