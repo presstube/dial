@@ -14,6 +14,11 @@
       <canvas id="cjs-canvas"></canvas>
     </div>
 
+    <footer>
+      <div id="marketplace"><a href="https://www.fxhash.xyz/marketplace/generative/41" target="blank">Lemon Princess on fxhash marketplace</a></div>
+      <div id="mint">Mint <button id="mintbutton"><a href="https://www.fxhash.xyz/generative/41" target="blank">19.80 tz</a></button></div>
+    </footer>
+
     <script src="libs/createjs.min.js"></script>
     <script src="libs/lodash.core.min.js"></script>
     <script src="libs/pSBC.js"></script>
@@ -102,7 +107,7 @@
         container.scaleX = scaler
         container.scaleY = scaler
         container.x = canvas.width / 2
-        container.y = canvas.height / 2
+        container.y = canvas.height / 2 - (20 / scaler)
 
         retinalize()
       }

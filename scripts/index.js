@@ -314,8 +314,8 @@ function posPT() {
   // loader.y = (-(stage.height / 2) / scaler) + (margin/scaler)
   // loader.scaleX = loader.scaleY = 0.5 / scaler
 
-  loader.x = ((stage.width / 2) / scaler) - (60/scaler)
-  loader.y = ((stage.height / 2) / scaler) - (60/scaler)
+  loader.x = ((stage.width / 2) / scaler) - (60 / scaler)
+  loader.y = ((stage.height / 2) / scaler) - (80 / scaler)
   loader.scaleX = loader.scaleY = 0.5 / scaler
   // loader.gotoAndStop(0)
 }
@@ -323,7 +323,7 @@ function posPT() {
 function posLemonPrincessType() {
   // let margin = 80
   lemonPrincessType.x = (-(stage.width / 2) / scaler) + (120/scaler)
-  lemonPrincessType.y = (-(stage.height / 2) / scaler) + (50/scaler)
+  lemonPrincessType.y = (-(stage.height / 2) / scaler) + (70/scaler)
   lemonPrincessType.scaleX = lemonPrincessType.scaleY = 0.5 / scaler
   // lemonPrincessType.gotoAndStop(0)
 }
@@ -707,6 +707,7 @@ function gifExport() {
   
   posPT()
   posLemonPrincessType()
+  lemonPrincessType.y -= 20 / scaler
   loader.play()
   // loader.visible = false
   loader.x = dimensions / 1.2
