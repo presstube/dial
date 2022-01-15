@@ -70,8 +70,8 @@ let items
 let secItems
 let terItems
 let princessItems = []
-let maxItems = 5
-let minItems = 3
+let maxItems = 6
+let minItems = 4
 let numItemsPrimary
 let numItemsSecondary
 let numItemsTertiary
@@ -131,7 +131,6 @@ let colorschemes = [
 ]
 
 let primaryAssetData = [
-  {featureName: "furtive offering", name: "FurtiveOffering", playhead: "pingpong", fill: true, stroke:true},
   {featureName: "useful conversion", name: "UsefulConversion", playhead: "loop", fill: true, stroke:true},
   {featureName: "calculated outreach", name: "CalculatedOutreach", playhead: "pingpong", fill: true, stroke:true},
   {featureName: "host portion", name: "HostPortion", playhead: "pingpong", fill: true, stroke:true},
@@ -141,6 +140,7 @@ let primaryAssetData = [
   {featureName: "swift reaction", name: "SwiftReaction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
   {featureName: "completed dream", name: "CompletedDream", playhead: "loop", fill: true, stroke:false},
   {featureName: "tactile whisp", name: "TactileWhisp", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "furtive offering", name: "FurtiveOffering", playhead: "pingpong", fill: true, stroke:true},
   {featureName: "sweet fumble", name: "SweetFumble", playhead: "loop", fill: true, stroke:true},
   {featureName: "precious dream", name: "PreciousDream", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {featureName: "famished pupa", name: "FamishedPupa", playhead: "loop", fill: true, stroke:true},
@@ -245,8 +245,8 @@ function loadLibPile() {
     let comp = AdobeAn.getComposition("9DDB8738695F40A58CB0CE0618646207")
     libPile = comp.getLibrary()
 
-    kickoffSingle()
-    // loadData()
+    // kickoffSingle()
+    loadData()
 
   }, false)
 }
@@ -267,19 +267,20 @@ function loadData() {
 
 
 
-      // objkts = _.take(objkts, 23)
+      objkts = _.take(objkts, 23)
 
       // console.log("data: ", objkts[0])      
 
-      // objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
-      //   return {
-      //     generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
-      //     iteration: index + objkts.length,
-      //     owner: {
-      //       name: "Bilbo Baggins"
-      //     }
-      //   }
-      // }))
+      objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
+        return {
+          generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
+          iteration: index + objkts.length,
+          owner: {
+            name: "Bilbo Baggins"
+          },
+          notYetMinted: true
+        }
+      }))
 
       // console.log("objkts: ", objkts)
 
@@ -540,10 +541,10 @@ function loadIteration(iter) {
   }), 'generationHash');
   bootFXHash(fxhash)
   console.log('generationHash: ', fxhash)
-  // rarityTarget = fxrand()
-  rarityTarget = 1
+rarityTarget = fxrand()
+console.log("rarityTarget: ", rarityTarget)
+// rarityTarget = 1
   currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
-  // currentColorScheme = fxSample(colorschemes)
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
   recolorUI("#" + currentBGColor)
@@ -752,8 +753,9 @@ function makeDialUnits(objkts) {
 
     // seems dangerous to have this in here if I'm sorting...
     bootFXHash(objktData.generationHash)
-    // rarityTarget = fxrand()
-    rarityTarget = 1
+rarityTarget = fxrand()
+console.log("rarityTarget: ", rarityTarget)
+// rarityTarget = 1
     currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
     // currentColorScheme = fxSample(colorschemes)
     currentBGColor = fxSample(currentColorScheme)
@@ -921,21 +923,6 @@ function dialReadjust(iteration) {
 
 function startPrincessRaw() {
   loader.visible = false
-
-  // rarityTarget = 1
-  // // rarityTarget = fxrand()
-  // console.log("HASH ", fxhash)
-  // currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
-  // currentBGColor = fxSample(currentColorScheme)
-  // colorBG("#" + currentBGColor)
-  // numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
-  // numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
-  // assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
-  // secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
-  
-  // numItemsTertiary = Math.floor(fxrand() * 20) + 20
-  // terAssetID = fxSampleRarityID(tertiaryAssetData, rarityTarget)
-
   spawnNewPrincess()
 }
 
@@ -998,7 +985,9 @@ function destroyPrincessItem(item) {
 }
 
 function spawnNewPrincess() {
-  rarityTarget = 1
+rarityTarget = fxrand()
+console.log("rarityTarget: ", rarityTarget)
+// rarityTarget = 1
   // console.log("rarityTarget: ", rarityTarget)
   let scheme = fxSampleRarity(colorschemes, rarityTarget)
   features.palette = scheme.featureName 
@@ -1007,6 +996,8 @@ function spawnNewPrincess() {
   colorBG("#" + currentBGColor)
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
+  console.log("numItemsPrimary: ", numItemsPrimary)
+  console.log("numItemsSecondary: ", numItemsSecondary)
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
   secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   color = "#" + fxSample(currentColorScheme)
