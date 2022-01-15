@@ -252,18 +252,61 @@ function loadLibPile() {
 }
 
 function loadData() {
-  fetch("scripts/dillsack-data.json")
-    .then(response => response.json())
-    .then(json => {
-      objkts = json.data.generativeToken.entireCollection
+
+  doFetch()
+
+  function doFetch() {
+
+    let queryString = `
+    {
+      generativeToken(id:7172) {
+        id,
+        entireCollection {
+          id,
+          name,
+          slug,
+          generationHash,
+          rarity,
+          iteration,
+          metadata,
+          offer {
+            id,
+            price,
+            issuer {
+              id,
+              name
+            }
+          },
+          owner {
+            id,
+            name,
+            avatarUri
+          }
+        }
+      }
+    }
+
+    ` 
+    fetch('https://api.fxhash.xyz/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({query: queryString})
+    })
+    .then(r => r.json())
+    .then(data => {
+      // console.log(JSON.stringify(data))
+      objkts = data.data.generativeToken.entireCollection
       objkts = _.sortBy(objkts, 'iteration')
 
-      objkts = _.map(objkts, objkt => {
-        objkt.generationHash = bootFXHash()
-        return objkt
-      })
+      // objkts = _.map(objkts, objkt => {
+      //   objkt.generationHash = bootFXHash()
+      //   return objkt
+      // })
 
-      objkts[0].generationHash = "ooSa6g3DBZfFCCngXABbtLeq1Uq1xMvW6DYh2yMZmRUGm82oiCs"
+      // objkts[0].generationHash = "ooSa6g3DBZfFCCngXABbtLeq1Uq1xMvW6DYh2yMZmRUGm82oiCs"
 
       // objkts = _.take(objkts, 23)
       // objkts = _.take(objkts, 187)
@@ -285,6 +328,44 @@ function loadData() {
 
       kickoffMany()
     })
+  }
+
+
+
+
+  // fetch("scripts/dillsack-data.json")
+  //   .then(response => response.json())
+  //   .then(json => {
+  //     objkts = json.data.generativeToken.entireCollection
+  //     objkts = _.sortBy(objkts, 'iteration')
+
+  //     objkts = _.map(objkts, objkt => {
+  //       objkt.generationHash = bootFXHash()
+  //       return objkt
+  //     })
+
+  //     objkts[0].generationHash = "ooSa6g3DBZfFCCngXABbtLeq1Uq1xMvW6DYh2yMZmRUGm82oiCs"
+
+  //     // objkts = _.take(objkts, 23)
+  //     // objkts = _.take(objkts, 187)
+
+  //     // console.log("data: ", objkts[0])      
+
+  //     // objkts = _.concat(objkts, _.times(300 - objkts.length, index => {
+  //     //   return {
+  //     //     generationHash: "oocaj1odZwbFyeRr4err47GQhqxbB4haNNMQdT4VAzHdusBffK8",
+  //     //     iteration: index + objkts.length,
+  //     //     owner: {
+  //     //       name: "Bilbo Baggins"
+  //     //     },
+  //     //     notYetMinted: true
+  //     //   }
+  //     // }))
+
+  //     // console.log("objkts: ", objkts)
+
+  //     kickoffMany()
+  //   })
 }
 
 function kickoffLoader() {
@@ -436,7 +517,7 @@ function kickoffMany() {
       // console.log("dialRotation: ", dialRotation)
       // console.log("granAngleDelta: ", granAngleDelta)
       let totalMinted = objkts.length-1
-      if (granAngleDelta < 0 && (dialRotation <= 0 || dialRotation >= totalMinted * increment)) {
+      if (granAngleDelta < 0 && (dialRotation < 0 || dialRotation >= totalMinted * increment)) {
         dialRotation = totalMinted * increment
         granAngleCurrent = getGranularAngle(angle, numUnits)
         granAngleOffset = granAngleCurrent - dialRotation

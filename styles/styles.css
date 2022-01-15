@@ -23,7 +23,7 @@ footer {
 	border-color: #333;
 	border-style: solid;*/
 	position: fixed;
-	bottom: 10px;
+	bottom: 0px;
 	left: 10px;
 	height: 40px;
 	/*width: 100%;*/

@@ -8,13 +8,11 @@ console.log(`
 |||                |||
 ||||||||||||||||||||||
 
-After accidentally swigging from a potion of banishment at the Annual Wizard’s Gala, Lemon Princess was instantly transformed into a colorful, rapidly modulating energy pulsation.
+After accidentally swigging from a potion of banishment (mistaking it for her moon mead) at the Annual Wizard’s Gala, Lemon Princess was instantly transformed into a colorful and rapidly modulating energy node.
 
-For a few short moments her karmic fabric strained against extinction by summoning every possible objection and gripping every precious memory, but alas the brew was too potent and the Princess winked out of existence never to be seen again.
+For a few short moments her karmic fabric strained against extinction. It summoned every possible objection and gripped every precious memory, but alas the brew was too potent and the Princess winked out of existence never to be seen again.
 
----
-
-To view all permutations of the Princess' final moments & export GIFS visit: 
+To view each of Lemon Princess' final moments in context (& export them as GIFS) visit:
 
 https://presstube.com/lemon-princess
 
