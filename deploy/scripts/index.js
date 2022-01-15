@@ -118,46 +118,48 @@ let colorschemes = [
 ]
 
 let primaryAssetData = [
-  {featureName: "fruitful conversation", name: "UsefulConversion", playhead: "loop", fill: true, stroke:true},
-  {featureName: "calculated outreach", name: "CalculatedOutreach", playhead: "pingpong", fill: true, stroke:true},
-  {featureName: "host portion", name: "HostPortion", playhead: "pingpong", fill: true, stroke:true},
-  {featureName: "sensory influx", name: "SensoryInflux", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "tense junction", name: "TenseJunction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {featureName: "partial remembrance", name: "PartialRemembrance", playhead: "loop", fill: true, stroke:false},
-  {featureName: "swift reaction", name: "SwiftReaction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
-  {featureName: "completed dream", name: "CompletedDream", playhead: "loop", fill: true, stroke:false},
-  {featureName: "tactile whisp", name: "TactileWhisp", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "furtive offering", name: "FurtiveOffering", playhead: "pingpong", fill: true, stroke:true},
-  {featureName: "sweet fumble", name: "SweetFumble", playhead: "loop", fill: true, stroke:true},
-  {featureName: "precious dream", name: "PreciousDream", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "famished pupa", name: "FamishedPupa", playhead: "loop", fill: true, stroke:true},
+  {featureName: "fruitful conversations", name: "UsefulConversion", playhead: "loop", fill: true, stroke:true},
+  {featureName: "calculated outreaches", name: "CalculatedOutreach", playhead: "pingpong", fill: true, stroke:true},
+  {featureName: "hosted portions", name: "HostPortion", playhead: "pingpong", fill: true, stroke:true},
+  {featureName: "sensory influxes", name: "SensoryInflux", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "tense junctions", name: "TenseJunction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {featureName: "partial remembrances", name: "PartialRemembrance", playhead: "loop", fill: true, stroke:false},
+  {featureName: "swift reactions", name: "SwiftReaction", playhead: "loop", fill: false, stroke:true, pureStrokes:false},
+  {featureName: "completed dreams", name: "CompletedDream", playhead: "loop", fill: true, stroke:false},
+  {featureName: "tactile whisps", name: "TactileWhisp", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "furtive offerings", name: "FurtiveOffering", playhead: "pingpong", fill: true, stroke:true},
+  {featureName: "sweet fumbles", name: "SweetFumble", playhead: "loop", fill: true, stroke:true},
+  {featureName: "captivating déjà vus", name: "PreciousDream", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "famished pupas", name: "FamishedPupa", playhead: "loop", fill: true, stroke:true},
 ]
 
 let secondaryAssetData = [
-  {featureName: "conversion twitch", name: "ConversionTwitch", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "preference factory", name: "PreferenceFactory", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "oscillation quad", name: "OscillationQuad", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "wonder tract", name: "WonderTract", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "rejected transmission", name: "RejectedTransmission", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "collaborative sequence", name: "CollabSeq", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "challenge struct", name: "ChallengeStruct", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "contentment wreath", name: "ContentmentWreath", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "tally trade", name: "TallyTrade", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "transmution femur", name: "TransmutionFemur", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "pulse collar", name: "PulseCollar", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "morsel gobble", name: "MorselGobble", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "hopeful pathway", name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "new idea stream", name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "doubtful rivulet", name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "circular wish", name: "CircularWish", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "triongus buttle", name: "TriongusButtle", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "triadic buttus", name: "TriadiclButtus", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "kidney shimmer", name: "KidneyShimmer", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "conversion twitches", name: "ConversionTwitch", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "preference factories", name: "PreferenceFactory", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "oscillation quads", name: "OscillationQuad", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "wonder tracts", name: "WonderTract", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "rejected transmissions", name: "RejectedTransmission", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "collaborative sequences", name: "CollabSeq", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "challenge structs", name: "ChallengeStruct", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "contentment wreaths", name: "ContentmentWreath", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "tally trades", name: "TallyTrade", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "transmution femurs", name: "TransmutionFemur", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "pulse collars", name: "PulseCollar", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "morsel gobbles", name: "MorselGobble", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "hopeful pathways", name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "new idea streams", name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "doubtful rivulets", name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "circular wishes", name: "CircularWish", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "triongus buttles", name: "TriongusButtle", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "triadic buttuses", name: "TriadiclButtus", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "kidney shimmers", name: "KidneyShimmer", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
 ]
 
 let manifest = []
 
-let features = {}
+let features = {
+  "nested memories": 0
+}
 
 function prepMintValues() {
   let names = _.map(manifest, item => {
@@ -167,6 +169,8 @@ function prepMintValues() {
   const occurrences = names.reduce(function (acc, curr) {
     return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc
   }, {})
+
+  if (features["nested memories"] == 0) delete features["nested memories"]
 
   features = _.merge(occurrences, features)
   window.$fxhashFeatures = features
@@ -226,7 +230,7 @@ function startPrincessRaw() {
 
 function spawnNewPrincess() {
 rarityTarget = fxrand()
-  let scheme = fxSampleRarity(colorschemes, rarityTarget)
+  let scheme = fxSample(colorschemes)
   features.palette = scheme.featureName 
   currentColorScheme = scheme.scheme
   currentBGColor = fxSample(currentColorScheme)
@@ -241,9 +245,7 @@ rarityTarget = fxrand()
 
   prepMintValues()
 
-
   _.delay(bubble, 500)
-
 }
 
 function bubble() {
@@ -308,6 +310,7 @@ function makePulsor(index) {
   } 
 
   function makeNested() {
+    features["nested memories"] += 1
     let nestedItemData = fxSampleRarity(primaryAssetData, rarityTarget)
     manifest.push(nestedItemData)
     let nestedItem = new lib[nestedItemData.name]()

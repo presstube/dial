@@ -266,7 +266,7 @@ function loadData() {
       objkts[0].generationHash = "ooSa6g3DBZfFCCngXABbtLeq1Uq1xMvW6DYh2yMZmRUGm82oiCs"
 
       // objkts = _.take(objkts, 23)
-      objkts = _.take(objkts, 187)
+      // objkts = _.take(objkts, 187)
 
       // console.log("data: ", objkts[0])      
 
@@ -524,7 +524,7 @@ function tick(e) {
       capturer.stop();
       capturer.save(blob => {
         // title.visible = true
-        download( blob, "presstube-lemon-princess-" + iteration + ".gif", "image/gif" );
+        download( blob, "presstube-lemon-princess-" + iteration + "-" + fxhash +".gif", "image/gif" );
         // document.getElementById("overlay").style.visibility = "hidden"
         // console.log("asdsad: ", onResize)
         // window.onresize = window.savedResize
@@ -551,11 +551,12 @@ function loadIteration(iter) {
     return objkt.iteration == iteration;
   }), 'generationHash');
   bootFXHash(fxhash)
-  // console.log('generationHash: ', fxhash)
+  console.log('generationHash: ', fxhash)
 rarityTarget = fxrand()
 // console.log("rarityTarget: ", rarityTarget)
 // rarityTarget = 1
-  currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
+  currentColorScheme = fxSample(colorschemes).scheme
+  // currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
   currentBGColor = fxSample(currentColorScheme)
   colorBG("#" + currentBGColor)
   recolorUI("#" + currentBGColor)
@@ -767,7 +768,8 @@ function makeDialUnits(objkts) {
 // console.log("rarityTarget: ", rarityTarget)
 rarityTarget = fxrand()
 // rarityTarget = 1
-    currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
+    currentColorScheme = fxSample(colorschemes).scheme
+    // currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
     // currentColorScheme = fxSample(colorschemes)
     currentBGColor = fxSample(currentColorScheme)
 
@@ -1002,7 +1004,8 @@ rarityTarget = fxrand()
 // console.log("rarityTarget: ", rarityTarget)
 // rarityTarget = 1
   // console.log("rarityTarget: ", rarityTarget)
-  let scheme = fxSampleRarity(colorschemes, rarityTarget)
+  // let scheme = fxSampleRarity(colorschemes, rarityTarget)
+  let scheme = fxSample(colorschemes)
   features.palette = scheme.featureName 
   currentColorScheme = scheme.scheme
   currentBGColor = fxSample(currentColorScheme)
