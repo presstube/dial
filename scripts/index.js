@@ -205,7 +205,7 @@ function prepMintValues() {
   }, {})
 
   features = _.merge(occurrences, features)
-  console.log("features: ", features)
+  // console.log("features: ", features)
 }
 
 loadLoaderLib()
@@ -343,7 +343,7 @@ function kickoffMany() {
   posPT()
 
   window.addEventListener("keydown", e => {
-    console.log("KEY: ", e)
+    // console.log("KEY: ", e)
     if (e.key == "ArrowLeft" || e.code == "Space") {
       handlePrev()
     } else if (e.key == "ArrowRight") {
@@ -998,7 +998,7 @@ function destroyPrincessItem(item) {
 
 function spawnNewPrincess() {
 rarityTarget = fxrand()
-console.log("fxhash: ", fxhash)
+// console.log("fxhash: ", fxhash)
 // console.log("rarityTarget: ", rarityTarget)
 // rarityTarget = 1
   // console.log("rarityTarget: ", rarityTarget)
