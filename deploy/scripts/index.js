@@ -146,9 +146,9 @@ let secondaryAssetData = [
   {featureName: "transmution femur", name: "TransmutionFemur", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {featureName: "pulse collar", name: "PulseCollar", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {featureName: "morsel gobble", name: "MorselGobble", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "hopeful pathway 1", name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "hopeful pathway 2", name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
-  {featureName: "hopeful pathway 3", name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "hopeful pathway", name: "HopefulPathway1", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "new idea stream", name: "HopefulPathway2", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
+  {featureName: "doubtful rivulet", name: "HopefulPathway3", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {featureName: "circular wish", name: "CircularWish", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {featureName: "triongus buttle", name: "TriongusButtle", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
   {featureName: "triadic buttus", name: "TriadiclButtus", playhead: "loop", fill: false, stroke:true, pureStrokes:true},
@@ -169,6 +169,7 @@ function prepMintValues() {
   }, {})
 
   features = _.merge(occurrences, features)
+  window.$fxhashFeatures = features
   console.log("FXHASH ", fxhash)
   console.log("FEATURES ", features)
 }
@@ -203,7 +204,7 @@ function kickoffLoader() {
   loader = new loaderLib.PTLogoSigilsSmall()
   container.addChild(loader)
 
-  _.delay(loadLib, 500)
+  loadLib()
 }
 
 function colorBG(color) {
@@ -220,7 +221,6 @@ function tick(e) {
 }
 
 function startPrincessRaw() {
-  loader.visible = false
   spawnNewPrincess()
 }
 
@@ -230,7 +230,6 @@ rarityTarget = fxrand()
   features.palette = scheme.featureName 
   currentColorScheme = scheme.scheme
   currentBGColor = fxSample(currentColorScheme)
-  colorBG("#" + currentBGColor)
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
@@ -241,6 +240,23 @@ rarityTarget = fxrand()
   secItems = _.times(numItemsSecondary, makeSegundo)
 
   prepMintValues()
+
+
+  _.delay(bubble, 500)
+
+}
+
+function bubble() {
+  colorBG("#" + currentBGColor)
+  loader.visible = false
+  _.map(items, bubbleItem)
+  _.map(secItems, bubbleItem)
+}
+
+function bubbleItem(item) {
+  cjs.Tween.get(item, {override:true})
+    .wait(Math.random() * tweenWaitMax)
+    .to({scaleX: item.targetScaleX, scaleY: 1}, tweenDuration, tweenEaseIn)
 }
 
 function makePulsor(index) {
@@ -280,9 +296,10 @@ function makePulsor(index) {
   item.y = fxrand() * yMoveRange - fxrand() * yMoveRange
   let targetScaleX = fxrand() < 0.4 ? 1 : -1
   item.scaleX = item.scaleY = 0
-  cjs.Tween.get(item, {override:true})
-    .wait(Math.random() * tweenWaitMax)
-    .to({scaleX: targetScaleX, scaleY: 1}, tweenDuration, tweenEaseIn)
+  item.targetScaleX = targetScaleX
+  // cjs.Tween.get(item, {override:true})
+  //   .wait(Math.random() * tweenWaitMax)
+  //   .to({scaleX: targetScaleX, scaleY: 1}, tweenDuration, tweenEaseIn)
   item.rotation = fxrand() * 360
   container.addChildAt(item, 1)
 
@@ -334,9 +351,10 @@ function makeSegundo(index) {
   item.y = fxrand() * yMoveRangeSec - fxrand() * yMoveRangeSec
   let targetScaleX = fxrand() < 0.4 ? 1 : -1
   item.scaleX = item.scaleY = 0
-  cjs.Tween.get(item, {override:true})
-    .wait(Math.random() * tweenWaitMax)
-    .to({scaleX: targetScaleX, scaleY: 1}, tweenDuration, tweenEaseIn)
+  item.targetScaleX = targetScaleX
+  // cjs.Tween.get(item, {override:true})
+  //   .wait(Math.random() * tweenWaitMax)
+  //   .to({scaleX: targetScaleX, scaleY: 1}, tweenDuration, tweenEaseIn)
   item.rotation = fxrand()*360
   container.addChildAt(item, Math.floor(fxrand()*container.children.length))
   item.gotoAndPlay(Math.floor(fxrand() * item.totalFrames))
