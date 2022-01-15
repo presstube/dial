@@ -433,7 +433,8 @@ function kickoffMany() {
       // click.play(0,0)
       // dialRotation += granAngleDelta
       dialRotation = granAngleCurrent - granAngleOffset
-      console.log("dialRotation: ", dialRotation)
+      // console.log("dialRotation: ", dialRotation)
+      // console.log("granAngleDelta: ", granAngleDelta)
       let totalMinted = objkts.length-1
       if (dialRotation >= totalMinted * increment) {
         dialRotation = totalMinted * increment
@@ -545,7 +546,7 @@ function tick(e) {
 
 function loadIteration(iter) {
   iteration = iter
-  console.log('iter: ', iteration)
+  // console.log('iter: ', iteration)
   let fxhash = _.result(_.find(objkts, function(objkt) {
     return objkt.iteration == iteration;
   }), 'generationHash');
@@ -755,7 +756,7 @@ function makeDialUnits(objkts) {
 
   function makeDialUnit(index) {
     let objktData = objkts[index] ? objkts[index] : {
-      generationHash: "ooSwp8Sb82gtgWYB1xoXUZXzDYtSQPbDrngRPj6TMdMkEMXSiNt"
+      generationHash: "ooD9dZBWHW2SGHHPVzNsG4ENcEJ75G1f2VmKFR3teahTgvv36ig"
     }
 
     let degrees = (360 / numUnits) * (index)
@@ -763,8 +764,8 @@ function makeDialUnits(objkts) {
 
     // seems dangerous to have this in here if I'm sorting...
     bootFXHash(objktData.generationHash)
+// console.log("rarityTarget: ", rarityTarget)
 rarityTarget = fxrand()
-console.log("rarityTarget: ", rarityTarget)
 // rarityTarget = 1
     currentColorScheme = fxSampleRarity(colorschemes, rarityTarget).scheme
     // currentColorScheme = fxSample(colorschemes)
@@ -882,6 +883,7 @@ function recolorUI(color) {
   let shiftAmount = darkOrLight == "dark" ? 0.3 : -0.6
   let UIColor = pSBC( shiftAmount, color );
   document.getElementById("overlay").style.color = UIColor
+  document.getElementById("footer").style.color = UIColor
   simpleRecolor(lemonPrincessType, UIColor)
   simpleRecolor(loader, UIColor)
   simpleRecolor(crosshairs, UIColor)
@@ -996,7 +998,8 @@ function destroyPrincessItem(item) {
 
 function spawnNewPrincess() {
 rarityTarget = fxrand()
-console.log("rarityTarget: ", rarityTarget)
+// console.log("fxhash: ", fxhash)
+// console.log("rarityTarget: ", rarityTarget)
 // rarityTarget = 1
   // console.log("rarityTarget: ", rarityTarget)
   let scheme = fxSampleRarity(colorschemes, rarityTarget)
@@ -1006,8 +1009,8 @@ console.log("rarityTarget: ", rarityTarget)
   colorBG("#" + currentBGColor)
   numItemsPrimary = Math.floor(fxrand() * maxItems) + minItems
   numItemsSecondary = Math.floor(fxrand() * maxItems) + minItems
-  console.log("numItemsPrimary: ", numItemsPrimary)
-  console.log("numItemsSecondary: ", numItemsSecondary)
+  // console.log("numItemsPrimary: ", numItemsPrimary)
+  // console.log("numItemsSecondary: ", numItemsSecondary)
   assetID = fxSampleRarityID(primaryAssetData, rarityTarget)
   secAssetID = fxSampleRarityID(secondaryAssetData, rarityTarget)
   color = "#" + fxSample(currentColorScheme)
