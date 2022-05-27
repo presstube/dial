@@ -772,16 +772,21 @@ function gifExport() {
 
   document.getElementById("overlay").style.visibility = "hidden"
   
-  let dimensions = 350
-  let scaleBound = 700
+  let dimensions = 2048
+  let scaleBound = 2048
 
   canvas.width = dimensions
   canvas.height = dimensions
-  scaler = 1
-  if (canvas.width < scaleBound || canvas.height < scaleBound) { 
-    let smallestScaleSize = canvas.width < canvas.height ? canvas.width : canvas.height
-    scaler = smallestScaleSize / scaleBound
-  }
+        scaler = 1
+        // console.log("cw ch:", canvas.width, canvas.height)
+        if (canvas.width < scaleBoundMin || canvas.height < scaleBoundMin) { 
+          let smallestScaleSize = canvas.width < canvas.height ? canvas.width : canvas.height
+          scaler = smallestScaleSize / scaleBoundMin
+        } else if (canvas.width > scaleBoundMax && canvas.height > scaleBoundMax) {
+          let smallestScaleSize = canvas.width < canvas.height ? canvas.width : canvas.height
+          scaler = smallestScaleSize / scaleBoundMax
+        // console.log("scaler:", scaler)
+        }
   container.scaleX = scaler
   container.scaleY = scaler
   container.x = canvas.width / 2
@@ -800,11 +805,13 @@ function gifExport() {
   
   posPT()
   posLemonPrincessType()
+
   loader.play()
-  // loader.visible = false
+  loader.visible = false
   loader.x = dimensions / 1.2
   loader.y = dimensions / 1.2
   loader.scaleX = loader.scaleY = 0.5
+  lemonPrincessType.visible = false
 
   // window.savedResize = window.onresize
   // window.onresize = null
